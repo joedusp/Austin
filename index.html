@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Copa 2026 Austin">
+<meta name="theme-color" content="#1a64b9">
+<link rel="apple-touch-icon" sizes="180x180" href="https://www.fifplay.com/img/public/fifa-world-cup-2026-logo-alt.png">
+<title>Copa 2026 Austin</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{--bg:#F2F2F7;--card:#FFF;--label:#000;--label2:#6D6D72;--label3:#ADADB1;--sep:#C6C6C8;--blue:#007AFF;--green:#34C759;--orange:#FF9500;--purple:#AF52DE;--teal:#32ADE6;--red:#FF3B30;}
+@media(prefers-color-scheme:dark){:root{--bg:#000;--card:#1C1C1E;--label:#FFF;--label2:#ABABAF;--label3:#6D6D72;--sep:#38383A;--blue:#0A84FF;--green:#30D158;--orange:#FF9F0A;--purple:#BF5AF2;--teal:#64D2FF;--red:#FF453A;}}
+body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;background:var(--bg);color:var(--label);min-height:100dvh;overflow-x:hidden;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:99;background:rgba(242,242,247,.92);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--sep);padding:env(safe-area-inset-top,44px) 16px 0;}
+@media(prefers-color-scheme:dark){.nav{background:rgba(0,0,0,.92);}}
+.nav-row{display:flex;align-items:center;justify-content:space-between;padding-bottom:8px;}
+.nav-title{font-size:17px;font-weight:600;}
+.nav-sub{font-size:13px;color:var(--label2);}
+
+/* TABS */
+.tabs{display:flex;border-top:.5px solid var(--sep);}
+.tab-btn{flex:1;padding:9px 0 8px;border:none;background:transparent;font-family:inherit;font-size:12px;font-weight:500;color:var(--label2);cursor:pointer;position:relative;transition:color .15s;}
+.tab-btn.on{color:var(--blue);}
+.tab-btn.on::after{content:'';position:absolute;bottom:0;left:25%;right:25%;height:2px;background:var(--blue);border-radius:2px 2px 0 0;}
+.tab-icon{font-size:17px;display:block;margin-bottom:1px;}
+
+/* VIEWS */
+.view{display:none;}
+.view.on{display:block;}
+
+/* BANNERS */
+.next-banner{padding:13px 16px;font-size:13px;font-weight:500;line-height:1.4;display:none;}
+.b-default{background:#007AFF;color:#fff;}.b-soon{background:#FF9500;color:#fff;}
+.b-tomorrow{background:#FF3B30;color:#fff;}.b-today{background:#FF3B30;color:#fff;font-size:14px;font-weight:700;}
+.b-live{background:#FF3B30;color:#fff;}.b-done{background:#34C759;color:#fff;}
+
+.content{padding:0 0 calc(env(safe-area-inset-bottom,20px) + 28px);}
+
+/* INSTALL */
+.install{background:var(--blue);color:#fff;border-radius:12px;margin:14px 16px 0;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:13px;line-height:1.4;}
+.install.gone{display:none;}
+.install-x{margin-left:auto;background:rgba(255,255,255,.25);border:none;color:#fff;border-radius:50%;width:22px;height:22px;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+
+/* TZ */
+.tz-wrap{margin:14px 16px 0;display:flex;background:rgba(118,118,128,.12);border-radius:9px;padding:2px;}
+.tz-btn{flex:1;padding:6px 0;border:none;border-radius:7px;background:transparent;font-size:12px;font-weight:500;color:var(--label2);cursor:pointer;font-family:inherit;transition:all .2s;}
+.tz-btn.on{background:var(--card);color:var(--label);box-shadow:0 1px 3px rgba(0,0,0,.12);}
+
+/* ICARDS */
+.icard{background:var(--card);border-radius:12px;margin:14px 16px 0;padding:13px 14px;display:flex;align-items:flex-start;gap:12px;}
+.icard-title{font-size:15px;font-weight:600;margin-bottom:3px;}
+.icard-sub{font-size:13px;color:var(--label2);line-height:1.5;}
+
+/* TIMELINE */
+.tl-card{background:var(--card);border-radius:12px;margin:14px 16px 0;padding:14px 14px 12px;}
+.tl-hd{font-size:11px;font-weight:500;color:var(--label2);letter-spacing:.07em;text-transform:uppercase;margin-bottom:28px;}
+.tl-wrap{position:relative;height:68px;margin:0 8px;}
+.tl-line{position:absolute;top:28px;left:0;right:0;height:4px;background:var(--sep);border-radius:2px;}
+.tl-item{position:absolute;display:flex;flex-direction:column;align-items:center;}
+.tl-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0;}
+.tl-lbl{font-size:9px;font-weight:700;white-space:nowrap;}
+.tl-date{font-size:8px;color:var(--label3);white-space:nowrap;}
+.tl-above{top:0;transform:translateX(-50%);}
+.tl-above .tl-lbl{margin-bottom:2px;}
+.tl-above .tl-date{margin-bottom:3px;}
+.tl-below{top:32px;transform:translateX(-50%);}
+.tl-below .tl-dot{margin-bottom:3px;}
+
+/* MATCH SECTIONS */
+.section{margin:22px 0 0;}
+.sec-hd{font-size:13px;color:var(--label2);padding:0 20px 8px;text-transform:uppercase;letter-spacing:.02em;display:flex;align-items:center;gap:8px;}
+.ko-hint{font-size:10px;color:var(--label3);text-transform:none;letter-spacing:0;}
+.cgroup{background:var(--card);border-radius:12px;margin:0 16px;overflow:hidden;}
+.csep{height:.5px;background:var(--sep);margin-left:14px;}
+.mcard{display:flex;align-items:stretch;position:relative;transition:opacity .3s;}
+.mcard.checked{opacity:.4;}
+.accent-g{width:4px;background:var(--orange);flex-shrink:0;}
+.accent-k{width:4px;background:var(--green);flex-shrink:0;}
+.mbody{flex:1;padding:12px 46px 12px 10px;}
+.mmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.mdate{font-size:11px;font-weight:500;color:var(--label2);}
+.mnum{font-size:11px;font-weight:700;color:var(--blue);}
+.new-badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:20px;margin-left:5px;vertical-align:middle;}
+.teams{display:flex;align-items:center;gap:7px;margin-bottom:8px;flex-wrap:wrap;}
+.flag-c{width:28px;height:28px;border-radius:50%;background-size:cover;background-position:center;border:.5px solid rgba(128,128,128,.2);flex-shrink:0;}
+.tname{font-size:15px;font-weight:600;}
+.vs{font-size:12px;color:var(--label3);}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px;}
+.chip{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+.c-time{background:rgba(0,122,255,.1);color:var(--blue);}
+.c-t2{background:rgba(255,149,0,.12);color:var(--orange);}
+.c-t1{background:rgba(0,122,255,.1);color:var(--blue);}
+.c-hou{background:rgba(175,82,222,.12);color:var(--purple);}
+.c-dal{background:rgba(50,173,230,.12);color:var(--teal);}
+.c-cd{background:var(--bg);color:var(--label2);border:.5px solid var(--sep);}
+.c-dep{background:rgba(255,59,48,.1);color:var(--red);font-weight:600;}
+.c-ok{background:rgba(52,199,89,.12);color:var(--green);font-weight:600;}
+@media(prefers-color-scheme:dark){
+  .c-time{background:rgba(10,132,255,.18);}.c-t2{background:rgba(255,159,10,.18);}
+  .c-t1{background:rgba(10,132,255,.18);}.c-hou{background:rgba(191,90,242,.18);}
+  .c-dal{background:rgba(100,210,255,.18);}.c-dep{background:rgba(255,69,58,.18);}
+  .c-ok{background:rgba(48,209,88,.18);}
+}
+.maddr{font-size:11px;color:var(--label3);margin-top:3px;}
+.mtravel{font-size:11px;color:var(--label3);margin-top:2px;}
+.cbtn{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;border:2px solid var(--sep);background:transparent;cursor:pointer;font-size:0;transition:all .25s;display:flex;align-items:center;justify-content:center;}
+.cbtn.done{background:var(--green);border-color:var(--green);}
+.cbtn.done::after{content:"\2713";color:#fff;font-size:14px;font-weight:700;font-family:-apple-system,sans-serif;}
+.ko-title{font-size:15px;font-weight:600;margin-bottom:10px;}
+.ko-vs{font-size:13px;font-weight:400;color:var(--label3);}
+.ko-cols{display:flex;margin-bottom:10px;}
+.ko-col{flex:1;padding-right:8px;}
+.ko-col+.ko-col{border-left:.5px solid var(--sep);padding-left:8px;padding-right:0;}
+.ko-col-hd{font-size:10px;font-weight:600;color:var(--label3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;}
+.ko-row{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--label2);margin-bottom:4px;}
+.flag-r{width:20px;height:14px;border-radius:2px;background-size:cover;background-position:center;border:.5px solid rgba(128,128,128,.15);flex-shrink:0;}
+.stats{background:var(--card);border-radius:12px;margin:14px 16px 0;display:flex;}
+.stat{flex:1;text-align:center;padding:14px 8px;}
+.stat+.stat{border-left:.5px solid var(--sep);}
+.stat-n{font-size:24px;font-weight:700;letter-spacing:-.5px;}
+.stat-l{font-size:11px;color:var(--label2);margin-top:2px;}
+
+/* ── VOO STYLES ─────────────────────────────── */
+.voo-banner{margin:14px 16px 0;border-radius:12px;padding:13px 14px;font-size:13px;font-weight:500;line-height:1.5;}
+.voo-banner.azul{background:var(--blue);color:#fff;}
+.voo-banner.laranja{background:var(--orange);color:#fff;}
+.voo-banner.verde{background:var(--green);color:#fff;}
+
+.voo-stats{background:var(--card);border-radius:12px;margin:14px 16px 0;display:flex;}
+.vst{flex:1;text-align:center;padding:12px 6px;}
+.vst+.vst{border-left:.5px solid var(--sep);}
+.vst-n{font-size:20px;font-weight:700;letter-spacing:-.5px;}
+.vst-l{font-size:10px;color:var(--label2);margin-top:2px;}
+
+/* BOARDING PASS */
+.pass{background:var(--card);border-radius:16px;margin:14px 16px 0;}
+.pass-hd{padding:13px 14px 10px;display:flex;align-items:center;justify-content:space-between;}
+.al-row{display:flex;align-items:center;gap:9px;}
+.al-logo{width:32px;height:32px;border-radius:8px;background:#005B96;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.al-logo svg{width:18px;height:18px;fill:#fff;}
+.al-name{font-size:13px;font-weight:600;}
+.al-flt{font-size:11px;color:var(--label2);}
+.leg{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;}
+.leg-ida{background:rgba(0,122,255,.12);color:var(--blue);}
+.leg-volta{background:rgba(175,82,222,.12);color:var(--purple);}
+@media(prefers-color-scheme:dark){.leg-ida{background:rgba(10,132,255,.2);}.leg-volta{background:rgba(191,90,242,.2);}}
+
+.route{padding:0 14px 13px;display:flex;align-items:center;gap:6px;}
+.apt{flex:1;}
+.apt-code{font-size:30px;font-weight:700;letter-spacing:-1px;line-height:1;}
+.apt-city{font-size:11px;color:var(--label2);margin-top:2px;}
+.apt-time{font-size:13px;font-weight:600;margin-top:3px;}
+.apt.r{text-align:right;}
+.rmid{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 4px;}
+.rdur{font-size:10px;font-weight:500;color:var(--label3);}
+.rarrow{display:flex;align-items:center;width:72px;gap:2px;}
+.rdot{width:5px;height:5px;border-radius:50%;border:1.5px solid var(--sep);flex-shrink:0;}
+.rline{flex:1;height:1px;background:var(--sep);}
+
+/* TEAR */
+.tear{display:flex;align-items:center;margin:0 -1px;}
+.t-notch{width:18px;height:18px;border-radius:50%;background:var(--bg);flex-shrink:0;margin:0 -9px;z-index:1;}
+.t-dash{flex:1;border-top:1.5px dashed var(--sep);}
+
+/* BINFO */
+.binfo{padding:11px 14px 13px;display:grid;grid-template-columns:1fr 1fr;gap:9px 8px;}
+.bl{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--label3);margin-bottom:2px;}
+.bv{font-size:13px;font-weight:600;}
+
+/* ESCALA */
+.escala{margin:8px 16px 0;background:rgba(255,149,0,.10);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+@media(prefers-color-scheme:dark){.escala{background:rgba(255,159,10,.16);}}
+.escala-txt{font-size:12px;font-weight:500;color:var(--orange);line-height:1.4;}
+
+/* PASSAGEIROS */
+.pax-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
+.pax-card-hd{padding:9px 14px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--label2);border-bottom:.5px solid var(--sep);}
+.pax-row{display:flex;align-items:center;gap:10px;padding:11px 14px;}
+.pax-row+.pax-row{border-top:.5px solid var(--sep);}
+.pax-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
+.pax-name{font-size:14px;font-weight:500;}
+.pax-doc{font-size:11px;color:var(--label2);}
+.pax-et{font-size:10px;color:var(--label3);font-family:ui-monospace,monospace;}
+
+/* BAGAGEM */
+.bag-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
+.bag-row{display:flex;align-items:center;gap:10px;padding:11px 14px;}
+.bag-row+.bag-row{border-top:.5px solid var(--sep);}
+.bag-ico{font-size:22px;width:30px;text-align:center;flex-shrink:0;}
+.bag-lbl{font-size:14px;font-weight:500;}
+.bag-sub{font-size:11px;color:var(--label2);}
+.bag-ok{background:rgba(52,199,89,.12);color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;white-space:nowrap;}
+.bag-no{background:rgba(255,59,48,.1);color:var(--red);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto;white-space:nowrap;}
+@media(prefers-color-scheme:dark){.bag-ok{background:rgba(48,209,88,.18);}.bag-no{background:rgba(255,69,58,.18);}}
+
+/* CHECK-IN CODE */
+.code-card{background:var(--card);border-radius:12px;margin:14px 16px 0;padding:13px 14px;display:flex;align-items:center;gap:14px;}
+.code-big{font-family:ui-monospace,Menlo,Monaco,monospace;font-size:28px;font-weight:700;letter-spacing:4px;color:var(--blue);}
+
+/* NOTIFICAÇÕES */
+.notif-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
+.notif-hd{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--sep);}
+.notif-hd-title{font-size:13px;font-weight:600;}
+.notif-hd-sub{font-size:11px;color:var(--label2);margin-top:2px;}
+.ntoggle{border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;background:var(--blue);color:#fff;}
+.ntoggle.on{background:var(--green);}
+.ntoggle:disabled{opacity:.4;cursor:default;}
+.notif-row{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;}
+.notif-row+.notif-row{border-top:.5px solid var(--sep);}
+.notif-time{min-width:46px;text-align:right;}
+.notif-t{font-size:11px;font-weight:600;color:var(--blue);}
+.notif-d{font-size:10px;color:var(--label3);}
+.ndot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;background:var(--sep);}
+.ndot.ok{background:var(--green);}
+.ndot.warn{background:var(--orange);}
+.ndot.done{background:var(--label3);}
+.notif-body{}
+.notif-title{font-size:13px;font-weight:600;margin-bottom:2px;}
+.notif-sub{font-size:11px;color:var(--label2);}
+
+
+/* CLOCK */
+.clock-card{background:var(--card);border-radius:12px;margin:14px 16px 0;display:flex;overflow:hidden;}
+.clock-side{flex:1;padding:13px 14px;text-align:center;}
+.clock-side+.clock-side{border-left:.5px solid var(--sep);}
+.clock-flag{font-size:20px;margin-bottom:3px;}
+.clock-time{font-size:26px;font-weight:700;letter-spacing:-1px;font-variant-numeric:tabular-nums;}
+.clock-label{font-size:10px;color:var(--label2);margin-top:3px;}
+.clock-diff{font-size:11px;color:var(--label3);margin-top:2px;}
+
+/* MAPS CHIP */
+.c-maps{background:rgba(52,199,89,.12);color:var(--green);font-weight:600;}
+@media(prefers-color-scheme:dark){.c-maps{background:rgba(48,209,88,.18);}}
+
+/* STADIUM SECTION */
+.stad-card{background:var(--card);border-radius:12px;margin:0 16px;overflow:hidden;}
+.stad-hd{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:.5px solid var(--sep);}
+.stad-hd-icon{font-size:24px;flex-shrink:0;}
+.stad-hd-title{font-size:15px;font-weight:600;}
+.stad-hd-sub{font-size:12px;color:var(--label2);margin-top:1px;}
+.stad-tabs{display:flex;border-bottom:.5px solid var(--sep);padding:0 2px;}
+.stad-tab{flex:1;padding:9px 4px;border:none;background:transparent;font-family:inherit;font-size:11px;font-weight:500;color:var(--label2);cursor:pointer;position:relative;transition:color .15s;}
+.stad-tab.on{color:var(--blue);}
+.stad-tab.on::after{content:'';position:absolute;bottom:0;left:15%;right:15%;height:2px;background:var(--blue);border-radius:2px 2px 0 0;}
+.stad-panel{display:none;padding:13px 14px;}
+.stad-panel.on{display:block;}
+.park-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.park-row:last-child{margin-bottom:0;}
+.park-ico{font-size:18px;width:26px;text-align:center;flex-shrink:0;}
+.park-label{font-size:13px;font-weight:600;margin-bottom:2px;}
+.park-sub{font-size:12px;color:var(--label2);line-height:1.5;}
+.park-price{font-size:12px;font-weight:700;color:var(--orange);}
+.rule-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.rule-row:last-child{margin-bottom:0;}
+.rule-ico{font-size:15px;width:22px;text-align:center;flex-shrink:0;margin-top:1px;}
+.rule-txt{font-size:12px;color:var(--label);line-height:1.5;}
+.rule-ok{color:var(--green);font-weight:600;}
+.rule-no{color:var(--red);font-weight:600;}
+.rest-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.rest-row:last-child{margin-bottom:0;}
+.rest-info{flex:1;}
+.rest-name{font-size:13px;font-weight:600;}
+.rest-type{font-size:11px;color:var(--label2);}
+.rest-dist{font-size:10px;color:var(--label3);margin-top:1px;}
+.rest-maps{background:rgba(0,122,255,.1);color:var(--blue);border:none;border-radius:20px;padding:3px 9px;font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;margin-left:auto;flex-shrink:0;text-decoration:none;display:inline-flex;align-items:center;}
+@media(prefers-color-scheme:dark){.rest-maps{background:rgba(10,132,255,.18);}}
+
+/* WEATHER */
+.wx-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
+.wx-hd{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--sep);}
+.wx-hd-title{font-size:13px;font-weight:600;}
+.wx-hd-sub{font-size:11px;color:var(--label2);margin-top:1px;}
+.wx-btn{border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;background:var(--blue);color:#fff;}
+.wx-body{padding:13px 14px;}
+.wx-idle{text-align:center;padding:6px 0 2px;}
+
+/* FLIGHT STATUS */
+.status-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
+.status-hd{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--sep);}
+.status-hd-left{}
+.status-hd-title{font-size:13px;font-weight:600;}
+.status-hd-sub{font-size:11px;color:var(--label2);margin-top:2px;}
+.status-check-btn{border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;background:var(--blue);color:#fff;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:opacity .2s;}
+.status-check-btn:disabled{opacity:.5;cursor:default;}
+.status-body{padding:13px 14px;}
+.status-idle{text-align:center;padding:8px 0 4px;}
+.status-idle-icon{font-size:32px;margin-bottom:6px;}
+.status-idle-txt{font-size:13px;color:var(--label2);line-height:1.5;}
+.status-result{font-size:13px;color:var(--label);line-height:1.7;white-space:pre-wrap;}
+.status-result strong{font-weight:700;}
+.status-footer{font-size:10px;color:var(--label3);margin-top:10px;padding-top:8px;border-top:.5px solid var(--sep);}
+.status-pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;margin-bottom:8px;}
+.status-pill.ok{background:rgba(52,199,89,.12);color:var(--green);}
+.status-pill.warn{background:rgba(255,149,0,.12);color:var(--orange);}
+.status-pill.err{background:rgba(255,59,48,.1);color:var(--red);}
+@media(prefers-color-scheme:dark){
+  .status-pill.ok{background:rgba(48,209,88,.18);}
+  .status-pill.warn{background:rgba(255,159,10,.18);}
+  .status-pill.err{background:rgba(255,69,58,.18);}
+}
+.spin{display:inline-block;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-row">
+    <div class="nav-title">🏆 Copa 2026 · Austin</div>
+    <div class="nav-sub">7 jogos · 3 pessoas</div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn on" id="tab-jogos" onclick="switchTab('jogos')">
+      <span class="tab-icon">⚽</span>Jogos
+    </button>
+    <button class="tab-btn" id="tab-voo" onclick="switchTab('voo')">
+      <span class="tab-icon">✈️</span>Voo
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ABA: JOGOS
+══════════════════════════════════════════ -->
+<div class="view on" id="view-jogos">
+  <div id="next-banner" class="next-banner"></div>
+  <div class="content">
+
+    <div class="install" id="ibanner">
+      <span>📲</span>
+      <span>Toque em <strong>Compartilhar</strong> → <strong>Adicionar à Tela de Início</strong></span>
+      <button class="install-x" onclick="document.getElementById('ibanner').classList.add('gone')">✕</button>
+    </div>
+
+    <div class="tz-wrap">
+      <button class="tz-btn on" id="btn-ct" onclick="setTZ('ct')">🕐 Local (CT)</button>
+      <button class="tz-btn" id="btn-brt" onclick="setTZ('brt')">🕐 São Paulo (BRT)</button>
+    </div>
+
+    <div class="icard">
+      <div style="font-size:28px;flex-shrink:0;">🏠</div>
+      <div>
+        <div class="icard-title">Base: Austin, TX</div>
+        <div class="icard-sub">9009 Great Hills Trail #2521 · 78759<br>🟣 → Houston (NRG): ~165 mi · ~2h30<br>🩵 → Arlington (AT&amp;T): ~185 mi · ~2h45</div>
+      </div>
+    </div>
+
+    <div class="tl-card">
+      <div class="tl-hd">Calendário · 14–30 Jun 2026</div>
+      <div class="tl-wrap">
+        <div class="tl-line"></div>
+        <div class="tl-item tl-above" style="left:0%">
+          <div class="tl-lbl" style="color:var(--orange);">M11</div>
+          <div class="tl-date">14 jun</div>
+          <div class="tl-dot" id="tl-M11" style="background:var(--orange);"></div>
+        </div>
+        <div class="tl-item tl-above" style="left:37.5%">
+          <div class="tl-lbl" style="color:var(--orange);">M35</div>
+          <div class="tl-date">20 jun</div>
+          <div class="tl-dot" id="tl-M35" style="background:var(--orange);"></div>
+        </div>
+        <div class="tl-item tl-above" style="left:75%">
+          <div class="tl-lbl" style="color:var(--orange);">M65</div>
+          <div class="tl-date">26 jun</div>
+          <div class="tl-dot" id="tl-M65" style="background:var(--orange);"></div>
+        </div>
+        <div class="tl-item tl-above" style="left:100%">
+          <div class="tl-lbl" style="color:var(--green);">M78</div>
+          <div class="tl-date">30 jun</div>
+          <div class="tl-dot" id="tl-M78" style="background:var(--green);"></div>
+        </div>
+        <div class="tl-item tl-below" style="left:18.75%">
+          <div class="tl-dot" id="tl-M23" style="background:var(--orange);"></div>
+          <div class="tl-lbl" style="color:var(--orange);">M23</div>
+          <div class="tl-date">17 jun</div>
+        </div>
+        <div class="tl-item tl-below" style="left:56.25%">
+          <div class="tl-dot" id="tl-M47" style="background:var(--orange);"></div>
+          <div class="tl-lbl" style="color:var(--orange);">M47</div>
+          <div class="tl-date">23 jun</div>
+        </div>
+        <div class="tl-item tl-below" style="left:87.5%">
+          <div class="tl-dot" id="tl-M76" style="background:var(--green);"></div>
+          <div class="tl-lbl" style="color:var(--green);">M76</div>
+          <div class="tl-date">29 jun</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="icard">
+      <div style="width:34px;height:34px;border-radius:50%;flex-shrink:0;background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/pt.svg');background-size:cover;background-position:center;border:.5px solid rgba(128,128,128,.2);"></div>
+      <div><div class="icard-title">Portugal · Grupo K</div><div class="icard-sub">2 jogos em Houston · M23 (17 jun) e M47 (23 jun) · 4 ingressos</div></div>
+    </div>
+    <div class="icard">
+      <div style="width:34px;height:34px;border-radius:50%;flex-shrink:0;background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/nl.svg');background-size:cover;background-position:center;border:.5px solid rgba(128,128,128,.2);"></div>
+      <div><div class="icard-title">Holanda · Grupo F</div><div class="icard-sub">2 jogos · M11 vs Japão em Arlington (14 jun) · M35 vs Suécia em Houston (20 jun)</div></div>
+    </div>
+
+    <div class="section">
+      <div class="sec-hd">Fase de Grupos</div>
+      <div class="cgroup">
+
+        <div class="mcard" id="card-M11"><div class="accent-g"></div><div class="mbody">
+          <div class="mmeta"><span class="mdate">DOM, 14 JUN<span class="new-badge">NOVO</span></span><span class="mnum">M11</span></div>
+          <div class="teams">
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/nl.svg');"></div>
+            <span class="tname">Holanda</span><span class="vs">vs</span><span class="tname">Japão</span>
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/jp.svg');"></div>
+          </div>
+          <div class="chips"><span class="chip c-time time-m" data-id="M11">15:00 CT</span><span class="chip c-t1">👤 1 ingresso</span><span class="chip c-dal">AT&amp;T · Arlington</span><span class="chip c-cd cd-M11">⏳...</span></div>
+          <div class="chips"><span class="chip c-dep dep-chip" data-id="M11">🚗 Sair às 09:30 CT</span></div>
+          <div class="maddr">📍 1 AT&amp;T Way, Arlington TX 76011</div>
+          <div class="mtravel">🚗 Austin→Arlington: ~185 mi · ~2h45 · ✈️ ~1h voo</div>
+        <div class="chips" style="margin-top:5px;"><a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=1+AT%26T+Way,+Arlington,+TX+76011&travelmode=driving" target="_blank" class="chip c-maps">🗺️ Rota Google Maps</a></div>
+        </div><button class="cbtn" id="chk-M11" onclick="chk('M11')" aria-label="Marcar assistido"></button></div><div class="csep"></div>
+
+        <div class="mcard" id="card-M23"><div class="accent-g"></div><div class="mbody">
+          <div class="mmeta"><span class="mdate">QUA, 17 JUN</span><span class="mnum">M23</span></div>
+          <div class="teams">
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/pt.svg');"></div>
+            <span class="tname">Portugal</span><span class="vs">vs</span><span class="tname">RD Congo</span>
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/cd.svg');"></div>
+          </div>
+          <div class="chips"><span class="chip c-time time-m" data-id="M23">12:00 CT</span><span class="chip c-t2">👥 2 ingressos</span><span class="chip c-hou">NRG · Houston</span><span class="chip c-cd cd-M23">⏳...</span></div>
+          <div class="chips"><span class="chip c-dep dep-chip" data-id="M23">🚗 Sair às 07:00 CT</span></div>
+          <div class="maddr">📍 One NRG Park, Houston TX 77054</div>
+          <div class="mtravel">🚗 Austin→Houston: ~165 mi · ~2h30</div>
+        <div class="chips" style="margin-top:5px;"><a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=One+NRG+Park,+Houston,+TX+77054&travelmode=driving" target="_blank" class="chip c-maps">🗺️ Rota Google Maps</a></div>
+        </div><button class="cbtn" id="chk-M23" onclick="chk('M23')" aria-label="Marcar assistido"></button></div><div class="csep"></div>
+
+        <div class="mcard" id="card-M35"><div class="accent-g"></div><div class="mbody">
+          <div class="mmeta"><span class="mdate">SÁB, 20 JUN</span><span class="mnum">M35</span></div>
+          <div class="teams">
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/nl.svg');"></div>
+            <span class="tname">Holanda</span><span class="vs">vs</span><span class="tname">Suécia</span>
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/se.svg');"></div>
+          </div>
+          <div class="chips"><span class="chip c-time time-m" data-id="M35">12:00 CT</span><span class="chip c-t1">👤 1 ingresso</span><span class="chip c-hou">NRG · Houston</span><span class="chip c-cd cd-M35">⏳...</span></div>
+          <div class="chips"><span class="chip c-dep dep-chip" data-id="M35">🚗 Sair às 07:00 CT</span></div>
+          <div class="maddr">📍 One NRG Park, Houston TX 77054</div>
+          <div class="mtravel">🚗 Austin→Houston: ~165 mi · ~2h30</div>
+        <div class="chips" style="margin-top:5px;"><a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=One+NRG+Park,+Houston,+TX+77054&travelmode=driving" target="_blank" class="chip c-maps">🗺️ Rota Google Maps</a></div>
+        </div><button class="cbtn" id="chk-M35" onclick="chk('M35')" aria-label="Marcar assistido"></button></div><div class="csep"></div>
+
+        <div class="mcard" id="card-M47"><div class="accent-g"></div><div class="mbody">
+          <div class="mmeta"><span class="mdate">TER, 23 JUN</span><span class="mnum">M47</span></div>
+          <div class="teams">
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/pt.svg');"></div>
+            <span class="tname">Portugal</span><span class="vs">vs</span><span class="tname">Uzbequistão</span>
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/uz.svg');"></div>
+          </div>
+          <div class="chips"><span class="chip c-time time-m" data-id="M47">12:00 CT</span><span class="chip c-t2">👥 2 ingressos</span><span class="chip c-hou">NRG · Houston</span><span class="chip c-cd cd-M47">⏳...</span></div>
+          <div class="chips"><span class="chip c-dep dep-chip" data-id="M47">🚗 Sair às 07:00 CT</span></div>
+          <div class="maddr">📍 One NRG Park, Houston TX 77054</div>
+          <div class="mtravel">🚗 Austin→Houston: ~165 mi · ~2h30</div>
+        <div class="chips" style="margin-top:5px;"><a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=One+NRG+Park,+Houston,+TX+77054&travelmode=driving" target="_blank" class="chip c-maps">🗺️ Rota Google Maps</a></div>
+        </div><button class="cbtn" id="chk-M47" onclick="chk('M47')" aria-label="Marcar assistido"></button></div><div class="csep"></div>
+
+        <div class="mcard" id="card-M65"><div class="accent-g"></div><div class="mbody">
+          <div class="mmeta"><span class="mdate">SEX, 26 JUN</span><span class="mnum">M65</span></div>
+          <div class="teams">
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/cv.svg');"></div>
+            <span class="tname">Cabo Verde</span><span class="vs">vs</span><span class="tname">Arábia Saudita</span>
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/sa.svg');"></div>
+          </div>
+          <div class="chips"><span class="chip c-time time-m" data-id="M65">19:00 CT</span><span class="chip c-t2">👥 2 ingressos</span><span class="chip c-hou">NRG · Houston</span><span class="chip c-cd cd-M65">⏳...</span></div>
+          <div class="chips"><span class="chip c-dep dep-chip" data-id="M65">🚗 Sair às 14:00 CT</span></div>
+          <div class="maddr">📍 One NRG Park, Houston TX 77054</div>
+          <div class="mtravel">🚗 Austin→Houston: ~165 mi · ~2h30</div>
+        <div class="chips" style="margin-top:5px;"><a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=One+NRG+Park,+Houston,+TX+77054&travelmode=driving" target="_blank" class="chip c-maps">🗺️ Rota Google Maps</a></div>
+        </div><button class="cbtn" id="chk-M65" onclick="chk('M65')" aria-label="Marcar assistido"></button></div>
+
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-hd">Décimas Sextas <span class="ko-hint" id="ko-hint">· aguardando fase de grupos</span></div>
+      <div class="cgroup">
+
+        <div class="mcard" id="card-M76"><div class="accent-k"></div><div class="mbody">
+          <div class="mmeta"><span class="mdate">SEG, 29 JUN</span><span class="mnum">M76</span></div>
+          <div id="ko-teams-M76">
+            <div class="ko-title">1º Grupo C <span class="ko-vs">vs</span> 2º Grupo F</div>
+            <div class="ko-cols">
+              <div class="ko-col"><div class="ko-col-hd">Grupo C</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/br.svg');"></div>Brasil</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/ma.svg');"></div>Marrocos</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/ht.svg');"></div>Haiti</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/gb-sct.svg');"></div>Escócia</div>
+              </div>
+              <div class="ko-col"><div class="ko-col-hd">Grupo F</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/nl.svg');"></div>Holanda</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/jp.svg');"></div>Japão</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/tn.svg');"></div>Tunísia</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/se.svg');"></div>Suécia</div>
+              </div>
+            </div>
+          </div>
+          <div class="chips"><span class="chip c-time time-m" data-id="M76">12:00 CT</span><span class="chip c-t1">👤 1 ingresso</span><span class="chip c-hou">NRG · Houston</span><span class="chip c-cd cd-M76">⏳...</span></div>
+          <div class="chips"><span class="chip c-dep dep-chip" data-id="M76">🚗 Sair às 07:00 CT</span></div>
+          <div class="maddr">📍 One NRG Park, Houston TX 77054</div>
+          <div class="mtravel">🚗 Austin→Houston: ~165 mi · ~2h30</div>
+        <div class="chips" style="margin-top:5px;"><a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=One+NRG+Park,+Houston,+TX+77054&travelmode=driving" target="_blank" class="chip c-maps">🗺️ Rota Google Maps</a></div>
+        </div><button class="cbtn" id="chk-M76" onclick="chk('M76')" aria-label="Marcar assistido"></button></div><div class="csep"></div>
+
+        <div class="mcard" id="card-M78"><div class="accent-k"></div><div class="mbody">
+          <div class="mmeta"><span class="mdate">TER, 30 JUN</span><span class="mnum">M78</span></div>
+          <div id="ko-teams-M78">
+            <div class="ko-title">2º Grupo E <span class="ko-vs">vs</span> 2º Grupo I</div>
+            <div class="ko-cols">
+              <div class="ko-col"><div class="ko-col-hd">Grupo E</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/de.svg');"></div>Alemanha</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/ci.svg');"></div>C. Marfim</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/ec.svg');"></div>Equador</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/cw.svg');"></div>Curaçao</div>
+              </div>
+              <div class="ko-col"><div class="ko-col-hd">Grupo I</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/fr.svg');"></div>França</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/sn.svg');"></div>Senegal</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/no.svg');"></div>Noruega</div>
+                <div class="ko-row"><div class="flag-r" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/iq.svg');"></div>Iraque</div>
+              </div>
+            </div>
+          </div>
+          <div class="chips"><span class="chip c-time time-m" data-id="M78">12:00 CT</span><span class="chip c-t1">👤 1 ingresso</span><span class="chip c-dal">AT&amp;T · Arlington</span><span class="chip c-cd cd-M78">⏳...</span></div>
+          <div class="chips"><span class="chip c-dep dep-chip" data-id="M78">🚗 Sair às 06:30 CT</span></div>
+          <div class="maddr">📍 1 AT&amp;T Way, Arlington TX 76011</div>
+          <div class="mtravel">🚗 Austin→Arlington: ~185 mi · ~2h45 · ✈️ ~1h voo</div>
+        <div class="chips" style="margin-top:5px;"><a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=1+AT%26T+Way,+Arlington,+TX+76011&travelmode=driving" target="_blank" class="chip c-maps">🗺️ Rota Google Maps</a></div>
+        </div><button class="cbtn" id="chk-M78" onclick="chk('M78')" aria-label="Marcar assistido"></button></div>
+
+      </div>
+    </div>
+
+
+    <!-- ESTÁDIOS -->
+    <div class="section">
+      <div class="sec-hd">🏟️ Estádios</div>
+    </div>
+
+    <!-- NRG PARK -->
+    <div class="stad-card">
+      <div class="stad-hd">
+        <div class="stad-hd-icon">🟣</div>
+        <div>
+          <div class="stad-hd-title">NRG Park · Houston</div>
+          <div class="stad-hd-sub">M23 · M35 · M47 · M65 · M76 — 5 jogos</div>
+        </div>
+        <a href="https://maps.google.com/?q=One+NRG+Park,+Houston,+TX+77054" target="_blank" class="chip c-maps" style="margin-left:auto;">🗺️ Ver no mapa</a>
+      </div>
+      <div class="stad-tabs">
+        <button class="stad-tab on" onclick="stadTab('nrg','park')">🅿️ Parking</button>
+        <button class="stad-tab" onclick="stadTab('nrg','rules')">🎒 Regras</button>
+        <button class="stad-tab" onclick="stadTab('nrg','food')">🍔 Restaurantes</button>
+      </div>
+
+      <div class="stad-panel on" id="nrg-park">
+        <div class="park-row"><div class="park-ico">🅿️</div><div><div class="park-label">Lot Orange (mais próximo)</div><div class="park-sub">Acesso pelo NRG Pkwy · 5 min a pé do portão</div><div class="park-price">~$35–50 USD · Pré-venda no site da FIFA recomendada</div></div></div>
+        <div class="park-row"><div class="park-ico">🅿️</div><div><div class="park-label">Lot Blue / Green (custo-benefício)</div><div class="park-sub">~10 min a pé · bem sinalizados</div><div class="park-price">~$20–30 USD</div></div></div>
+        <div class="park-row"><div class="park-ico">🚕</div><div><div class="park-label">Rideshare / Uber</div><div class="park-sub">Zona de desembarque no lado sul do complexo (Kirby Dr)</div><div class="park-price">Evite no rush pós-jogo — espere 30 min</div></div></div>
+        <div class="park-row"><div class="park-ico">⏰</div><div><div class="park-label">Estacionamentos abrem</div><div class="park-sub">4 horas antes do kickoff · Não há saída e re-entrada</div><div class="park-price">Chegue com 2h+ de antecedência nos jogos de 12h CT</div></div></div>
+      </div>
+
+      <div class="stad-panel" id="nrg-rules">
+        <div class="rule-row"><div class="rule-ico">✅</div><div class="rule-txt"><span class="rule-ok">Permitido:</span> Bolsa transparente até 30×15×30 cm · Carteira pequena (11×16 cm) · Protetor solar em embalagem transparente · Câmera sem lente removível</div></div>
+        <div class="rule-row"><div class="rule-ico">❌</div><div class="rule-txt"><span class="rule-no">Proibido:</span> Mochilas (mesmo transparentes) · Guarda-chuvas com ponta metálica · Comida e bebida de fora · Selfie sticks · Bandeiras com mastão acima de 1m · Lasers</div></div>
+        <div class="rule-row"><div class="rule-ico">📱</div><div class="rule-txt">Ingresso digital obrigatório · Carregue o celular antes · Documente a identidade (passaporte)</div></div>
+        <div class="rule-row"><div class="rule-ico">☀️</div><div class="rule-txt">Junho em Houston: média 36°C · Índice UV altíssimo · Leve protetor fator 50+, óculos de sol e roupa clara</div></div>
+        <div class="rule-row"><div class="rule-ico">🍺</div><div class="rule-txt">Cerveja vendida dentro do estádio · Limite de 2 por pessoa por compra</div></div>
+      </div>
+
+      <div class="stad-panel" id="nrg-food">
+        <div class="rest-row"><div class="rest-info"><div class="rest-name">Goode Company BBQ</div><div class="rest-type">BBQ texano clássico · almoço e jantar</div><div class="rest-dist">📍 ~4 mi do NRG · Kirby Dr</div></div><a class="rest-maps" href="https://maps.google.com/?q=Goode+Company+BBQ+Houston" target="_blank">🗺️ Mapa</a></div>
+        <div class="rest-row"><div class="rest-info"><div class="rest-name">Pappadeaux Seafood Kitchen</div><div class="rest-type">Frutos do mar texanos · ideal pré-jogo</div><div class="rest-dist">📍 ~3 mi do NRG · S Shepherd Dr</div></div><a class="rest-maps" href="https://maps.google.com/?q=Pappadeaux+Seafood+Houston+NRG" target="_blank">🗺️ Mapa</a></div>
+        <div class="rest-row"><div class="rest-info"><div class="rest-name">Ninfa's on Navigation</div><div class="rest-type">Tex-Mex original de Houston desde 1973</div><div class="rest-dist">📍 ~8 mi · Navigation Blvd (vale a viagem)</div></div><a class="rest-maps" href="https://maps.google.com/?q=Ninfas+on+Navigation+Houston" target="_blank">🗺️ Mapa</a></div>
+        <div class="rest-row"><div class="rest-info"><div class="rest-name">Gringo's Mexican Kitchen</div><div class="rest-type">Tex-Mex familiar · bom pra criançada</div><div class="rest-dist">📍 Várias unidades em Houston</div></div><a class="rest-maps" href="https://maps.google.com/?q=Gringos+Mexican+Kitchen+Houston" target="_blank">🗺️ Mapa</a></div>
+      </div>
+    </div>
+
+    <div style="height:14px;"></div>
+
+    <!-- AT&T STADIUM -->
+    <div class="stad-card">
+      <div class="stad-hd">
+        <div class="stad-hd-icon">🩵</div>
+        <div>
+          <div class="stad-hd-title">AT&amp;T Stadium · Arlington</div>
+          <div class="stad-hd-sub">M11 · M78 — 2 jogos</div>
+        </div>
+        <a href="https://maps.google.com/?q=1+AT%26T+Way,+Arlington,+TX+76011" target="_blank" class="chip c-maps" style="margin-left:auto;">🗺️ Ver no mapa</a>
+      </div>
+      <div class="stad-tabs">
+        <button class="stad-tab on" onclick="stadTab('att','park')">🅿️ Parking</button>
+        <button class="stad-tab" onclick="stadTab('att','rules')">🎒 Regras</button>
+        <button class="stad-tab" onclick="stadTab('att','food')">🍔 Restaurantes</button>
+      </div>
+
+      <div class="stad-panel on" id="att-park">
+        <div class="park-row"><div class="park-ico">🅿️</div><div><div class="park-label">Lot A (porta da frente)</div><div class="park-sub">Acesso direto pela AT&T Way · 3 min a pé</div><div class="park-price">~$50–75 USD · esgota rápido</div></div></div>
+        <div class="park-row"><div class="park-ico">🅿️</div><div><div class="park-label">Lots D / H (custo-benefício)</div><div class="park-sub">~10–15 min a pé · melhor custo-benefício</div><div class="park-price">~$25–35 USD</div></div></div>
+        <div class="park-row"><div class="park-ico">🎡</div><div><div class="park-label">Texas Live! (estacionar e caminhar)</div><div class="park-sub">Complexo de entretenimento ao lado do estádio · garagem coberta</div><div class="park-price">~$20 USD · walk de 5 min · ótima opção</div></div></div>
+        <div class="park-row"><div class="rule-ico">⚠️</div><div><div class="park-label">Atenção</div><div class="park-sub">Sem re-entrada no estacionamento · Abrem 3h antes do kickoff · Arlington não tem metrô</div></div></div>
+      </div>
+
+      <div class="stad-panel" id="att-rules">
+        <div class="rule-row"><div class="rule-ico">✅</div><div class="rule-txt"><span class="rule-ok">Permitido:</span> Bolsa transparente até 30×15×30 cm · Carteira pequena (11×16 cm) · Protetor solar (embalagem transparente) · Câmera compacta sem lente removível</div></div>
+        <div class="rule-row"><div class="rule-ico">❌</div><div class="rule-txt"><span class="rule-no">Proibido:</span> Mochilas · Backpacks de qualquer tamanho · Chapéu com aba maior que 10 cm (verificar regra FIFA) · Comida/bebida de fora · Guarda-chuvas com ponta · Lasers · Drones</div></div>
+        <div class="rule-row"><div class="rule-ico">❄️</div><div class="rule-txt">AT&amp;T Stadium é 100% climatizado · Temperatura interna ~20°C mesmo com 40°C lá fora · Leve uma camisa mais grossa para não passar frio</div></div>
+        <div class="rule-row"><div class="rule-ico">📱</div><div class="rule-txt">Ingresso digital · Passaporte · Celular carregado · Os checkpoints têm detectores de metal</div></div>
+        <div class="rule-row"><div class="rule-ico">🍺</div><div class="rule-txt">Bebidas alcoólicas disponíveis · Cardápio de comida variado dentro do estádio</div></div>
+      </div>
+
+      <div class="stad-panel" id="att-food">
+        <div class="rest-row"><div class="rest-info"><div class="rest-name">Texas Live!</div><div class="rest-type">Complexo de bares e restaurantes · ao lado do estádio</div><div class="rest-dist">📍 &lt;5 min a pé · AT&T Way · ideal pré e pós-jogo</div></div><a class="rest-maps" href="https://maps.google.com/?q=Texas+Live+Arlington" target="_blank">🗺️ Mapa</a></div>
+        <div class="rest-row"><div class="rest-info"><div class="rest-name">Babe's Chicken Dinner House</div><div class="rest-type">Frango frito estilo Texas · ambiente familiar</div><div class="rest-dist">📍 ~3 mi do estádio · Euless</div></div><a class="rest-maps" href="https://maps.google.com/?q=Babes+Chicken+Dinner+Euless" target="_blank">🗺️ Mapa</a></div>
+        <div class="rest-row"><div class="rest-info"><div class="rest-name">Joe T. Garcia's</div><div class="rest-type">Tex-Mex lendário desde 1935 · pátio ao ar livre enorme</div><div class="rest-dist">📍 ~12 mi · Fort Worth (vale a viagem)</div></div><a class="rest-maps" href="https://maps.google.com/?q=Joe+T+Garcias+Fort+Worth" target="_blank">🗺️ Mapa</a></div>
+        <div class="rest-row"><div class="rest-info"><div class="rest-name">Twisted Root Burger Co.</div><div class="rest-type">Burgers artesanais · rápido e gostoso</div><div class="rest-dist">📍 Arlington · várias unidades</div></div><a class="rest-maps" href="https://maps.google.com/?q=Twisted+Root+Burger+Arlington" target="_blank">🗺️ Mapa</a></div>
+      </div>
+    </div>
+
+    <!-- PREVISÃO DO TEMPO -->
+    <div class="wx-card" style="margin-top:14px;">
+      <div class="wx-hd">
+        <div>
+          <div class="wx-hd-title">🌡️ Previsão para os jogos</div>
+          <div class="wx-hd-sub" id="wx-sub">Houston e Arlington · Junho 2026</div>
+        </div>
+        <button class="wx-btn" id="wx-btn" onclick="fetchWeather()">Buscar</button>
+      </div>
+      <div class="wx-body" id="wx-body">
+        <div class="wx-idle" style="text-align:center;padding:6px 0 2px;">
+          <div style="font-size:28px;margin-bottom:6px;">🌤️</div>
+          <div style="font-size:13px;color:var(--label2);">Toque em <strong>Buscar</strong> para ver a previsão do tempo<br>para cada dia de jogo em Houston e Arlington.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-n">7</div><div class="stat-l">jogos</div></div>
+      <div class="stat"><div class="stat-n">10</div><div class="stat-l">ingressos</div></div>
+      <div class="stat"><div class="stat-n">17</div><div class="stat-l">dias de Copa</div></div>
+      <div class="stat"><div class="stat-n" id="stat-a">0</div><div class="stat-l">assistidos ✓</div></div>
+    </div>
+
+  </div>
+</div><!-- /view-jogos -->
+
+
+<!-- ══════════════════════════════════════════
+     ABA: VOO
+══════════════════════════════════════════ -->
+<div class="view" id="view-voo">
+  <div class="content">
+
+    <div class="voo-banner azul" id="voo-banner">⏳ Calculando...</div>
+
+    <div class="voo-stats">
+      <div class="vst"><div class="vst-n" id="vst-dias">–</div><div class="vst-l">dias p/ embarque</div></div>
+      <div class="vst"><div class="vst-n">3</div><div class="vst-l">passageiros</div></div>
+      <div class="vst"><div class="vst-n">2</div><div class="vst-l">escalas PTY</div></div>
+      <div class="vst"><div class="vst-n">GRU</div><div class="vst-l">→ AUS</div></div>
+    </div>
+
+    <!-- STATUS DO VOO -->
+    <div class="status-card">
+      <div class="status-hd">
+        <div class="status-hd-left">
+          <div class="status-hd-title">🔍 Status dos Voos</div>
+          <div class="status-hd-sub" id="status-sub">CM758 · CM715 · CM716 · CM759</div>
+        </div>
+        <button class="status-check-btn" id="status-btn" onclick="checkFlightStatus()">
+          Verificar
+        </button>
+      </div>
+      <div class="status-body" id="status-body">
+        <div class="status-idle">
+          <div class="status-idle-icon">🛫</div>
+          <div class="status-idle-txt">Toque em <strong>Verificar</strong> para consultar mudanças de<br>horário, portão ou cancelamentos em tempo real.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="clock-card" id="clock-card">
+      <div class="clock-side">
+        <div class="clock-flag">🇧🇷</div>
+        <div class="clock-time" id="clk-brt">--:--</div>
+        <div class="clock-label">São Paulo · BRT</div>
+        <div class="clock-diff" id="clk-diff">...</div>
+      </div>
+      <div class="clock-side">
+        <div class="clock-flag">🇺🇸</div>
+        <div class="clock-time" id="clk-ct">--:--</div>
+        <div class="clock-label">Austin · CT</div>
+        <div class="clock-diff">horário local</div>
+      </div>
+    </div>
+
+    <!-- IDA -->
+    <div class="section"><div class="sec-hd">IDA · Sáb 6 / Dom 7 Jun 2026</div></div>
+
+    <div class="pass">
+      <div class="pass-hd">
+        <div class="al-row">
+          <div class="al-logo"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+          <div><div class="al-name">Copa Airlines · CM 758</div><div class="al-flt">Econômico</div></div>
+        </div>
+        <span class="leg leg-ida">IDA 1/2</span>
+      </div>
+      <div class="route">
+        <div class="apt"><div class="apt-code">GRU</div><div class="apt-city">São Paulo</div><div class="apt-time">01:30 · Dom 7</div></div>
+        <div class="rmid">
+          <div class="rdur">6h 56m</div>
+          <div class="rarrow"><div class="rdot"></div><div class="rline"></div><span style="font-size:14px;">✈</span><div class="rline"></div><div class="rdot"></div></div>
+          <div class="rdur">Direto</div>
+        </div>
+        <div class="apt r"><div class="apt-code">PTY</div><div class="apt-city">Panamá</div><div class="apt-time">06:26 · Dom 7</div></div>
+      </div>
+      <div class="tear"><div class="t-notch"></div><div class="t-dash"></div><div class="t-notch"></div></div>
+      <div class="binfo">
+        <div><div class="bl">Embarque</div><div class="bv">Sáb 6 Jun · 23:30 em casa</div></div>
+        <div><div class="bl">Aeroporto</div><div class="bv">Guarulhos T3 · 3h antes</div></div>
+        <div><div class="bl">Chegar GRU</div><div class="bv">Sáb 6 · até 22:30</div></div>
+        <div><div class="bl">Classe</div><div class="bv">Econômica</div></div>
+      </div>
+    </div>
+
+    <div class="escala">
+      <span style="font-size:18px;">🔄</span>
+      <div class="escala-txt">Escala 2h 43m · Cidade do Panamá (PTY) · Troca de avião</div>
+    </div>
+
+    <div class="pass">
+      <div class="pass-hd">
+        <div class="al-row">
+          <div class="al-logo"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+          <div><div class="al-name">Copa Airlines · CM 715</div><div class="al-flt">Econômico</div></div>
+        </div>
+        <span class="leg leg-ida">IDA 2/2</span>
+      </div>
+      <div class="route">
+        <div class="apt"><div class="apt-code">PTY</div><div class="apt-city">Panamá</div><div class="apt-time">09:09 · Dom 7</div></div>
+        <div class="rmid">
+          <div class="rdur">4h 50m</div>
+          <div class="rarrow"><div class="rdot"></div><div class="rline"></div><span style="font-size:14px;">✈</span><div class="rline"></div><div class="rdot"></div></div>
+          <div class="rdur">Direto</div>
+        </div>
+        <div class="apt r"><div class="apt-code">AUS</div><div class="apt-city">Austin</div><div class="apt-time">13:59 CT · Dom 7</div></div>
+      </div>
+      <div class="tear"><div class="t-notch"></div><div class="t-dash"></div><div class="t-notch"></div></div>
+      <div class="binfo">
+        <div><div class="bl">Chegada Austin</div><div class="bv">Dom 7 Jun · 13:59 CT</div></div>
+        <div><div class="bl">Até o M11 (14 jun)</div><div class="bv">🏟️ 7 dias para curtir!</div></div>
+        <div><div class="bl">Aeroporto</div><div class="bv">Austin-Bergstrom (AUS)</div></div>
+        <div><div class="bl">Base</div><div class="bv">Great Hills Trail 🏠</div></div>
+      </div>
+    </div>
+
+    <!-- VOLTA -->
+    <div class="section"><div class="sec-hd">VOLTA · Qui 2 / Sex 3 Jul 2026</div></div>
+
+    <div class="pass">
+      <div class="pass-hd">
+        <div class="al-row">
+          <div class="al-logo" style="background:#5856D6;"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+          <div><div class="al-name">Copa Airlines · CM 716</div><div class="al-flt">Econômico</div></div>
+        </div>
+        <span class="leg leg-volta">VOLTA 1/2</span>
+      </div>
+      <div class="route">
+        <div class="apt"><div class="apt-code">AUS</div><div class="apt-city">Austin</div><div class="apt-time">15:36 CT · Qui 2</div></div>
+        <div class="rmid">
+          <div class="rdur">4h 24m</div>
+          <div class="rarrow"><div class="rdot"></div><div class="rline"></div><span style="font-size:14px;">✈</span><div class="rline"></div><div class="rdot"></div></div>
+          <div class="rdur">Direto</div>
+        </div>
+        <div class="apt r"><div class="apt-code">PTY</div><div class="apt-city">Panamá</div><div class="apt-time">20:00 · Qui 2</div></div>
+      </div>
+      <div class="tear"><div class="t-notch"></div><div class="t-dash"></div><div class="t-notch"></div></div>
+      <div class="binfo">
+        <div><div class="bl">Partida</div><div class="bv">Qui 2 Jul · 15:36 CT</div></div>
+        <div><div class="bl">Chegar AUS</div><div class="bv">4h antes → 11:36 CT</div></div>
+        <div><div class="bl">Sair da base</div><div class="bv">~09:00 CT</div></div>
+        <div><div class="bl">Classe</div><div class="bv">Econômica</div></div>
+      </div>
+    </div>
+
+    <div class="escala">
+      <span style="font-size:18px;">🔄</span>
+      <div class="escala-txt">Escala 1h 41m · Cidade do Panamá (PTY) · Troca de avião</div>
+    </div>
+
+    <div class="pass">
+      <div class="pass-hd">
+        <div class="al-row">
+          <div class="al-logo" style="background:#5856D6;"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+          <div><div class="al-name">Copa Airlines · CM 759</div><div class="al-flt">Econômico</div></div>
+        </div>
+        <span class="leg leg-volta">VOLTA 2/2</span>
+      </div>
+      <div class="route">
+        <div class="apt"><div class="apt-code">PTY</div><div class="apt-city">Panamá</div><div class="apt-time">21:41 · Qui 2</div></div>
+        <div class="rmid">
+          <div class="rdur">6h 49m</div>
+          <div class="rarrow"><div class="rdot"></div><div class="rline"></div><span style="font-size:14px;">✈</span><div class="rline"></div><div class="rdot"></div></div>
+          <div class="rdur">Direto</div>
+        </div>
+        <div class="apt r"><div class="apt-code">GRU</div><div class="apt-city">São Paulo</div><div class="apt-time">06:30 · Sex 3</div></div>
+      </div>
+      <div class="tear"><div class="t-notch"></div><div class="t-dash"></div><div class="t-notch"></div></div>
+      <div class="binfo">
+        <div><div class="bl">Chegada GRU</div><div class="bv">Sex 3 Jul · 06:30</div></div>
+        <div><div class="bl">Aeroporto</div><div class="bv">Guarulhos (GRU)</div></div>
+        <div><div class="bl">Total volta</div><div class="bv">~14h 54m</div></div>
+        <div><div class="bl">Copa encerrada</div><div class="bv">7 Jun – 2 Jul 🏆</div></div>
+      </div>
+    </div>
+
+    <!-- RESERVA -->
+    <div class="section"><div class="sec-hd">Reserva &amp; Check-in</div></div>
+    <div class="code-card">
+      <div>
+        <div class="bl" style="margin-bottom:4px;">Código web check-in</div>
+        <div class="code-big">AYR0VO</div>
+        <div style="font-size:11px;color:var(--label2);margin-top:3px;">copa.com · abre 24h antes do voo</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;">
+        <div class="bl" style="margin-bottom:4px;">Reserva Decolar</div>
+        <div style="font-family:ui-monospace,monospace;font-size:13px;font-weight:600;color:var(--label2);">106280329100</div>
+        <div style="font-size:11px;color:var(--label3);margin-top:4px;">Não reembolsável</div>
+      </div>
+    </div>
+
+    <!-- PASSAGEIROS -->
+    <div class="section"><div class="sec-hd">Passageiros</div></div>
+    <div class="pax-card">
+      <div class="pax-card-hd">3 passageiros · Copa Airlines</div>
+      <div class="pax-row">
+        <div class="pax-av" style="background:rgba(0,122,255,.12);color:var(--blue);">DH</div>
+        <div><div class="pax-name">Diego Fernandes Horta Rodrigues</div><div class="pax-doc">CPF 548.437.028-03</div><div class="pax-et">e-Ticket 2305590206838</div></div>
+      </div>
+      <div class="pax-row">
+        <div class="pax-av" style="background:rgba(175,82,222,.12);color:var(--purple);">LH</div>
+        <div><div class="pax-name">Lilian Katiana Fernandes Horta Rodrigues</div><div class="pax-doc">CPF 312.795.348-85</div><div class="pax-et">e-Ticket 2305590206837</div></div>
+      </div>
+      <div class="pax-row">
+        <div class="pax-av" style="background:rgba(52,199,89,.12);color:var(--green);">JE</div>
+        <div><div class="pax-name">João Eduardo Horta Rodrigues</div><div class="pax-doc">CPF 221.466.718-07</div><div class="pax-et">e-Ticket 2305590206836</div></div>
+      </div>
+    </div>
+
+    <!-- BAGAGEM -->
+    <div class="section"><div class="sec-hd">Bagagem</div></div>
+    <div class="bag-card">
+      <div class="bag-row"><div class="bag-ico">🎒</div><div><div class="bag-lbl">Mochila / bolsa pessoal</div><div class="bag-sub">Embaixo do assento da frente</div></div><div class="bag-ok">✓ Inclusa</div></div>
+      <div class="bag-row"><div class="bag-ico">🧳</div><div><div class="bag-lbl">Bagagem de mão</div><div class="bag-sub">Compartimento superior · até 10 kg</div></div><div class="bag-ok">✓ Inclusa</div></div>
+      <div class="bag-row" style="align-items:flex-start;">
+        <div class="bag-ico" style="margin-top:2px;">📦</div>
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <div><div class="bag-lbl">Bagagem despachada</div><div class="bag-sub">Porão · não incluída no bilhete</div></div>
+            <div class="bag-no" style="margin-left:8px;flex-shrink:0;">✗ Pagar extra</div>
+          </div>
+          <div style="background:var(--bg);border-radius:10px;padding:10px;">
+            <div style="font-size:10px;font-weight:600;color:var(--label3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;">📋 Seção G · GRU↔AUS · Passageiro regular · Bilhete normal</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px;">
+              <div style="background:var(--card);border-radius:8px;padding:7px 6px;">
+                <div style="font-size:9px;font-weight:600;color:var(--label3);margin-bottom:4px;">Economy Basic</div>
+                <div style="font-size:13px;font-weight:700;color:var(--red);">$100 <span style="font-size:8px;color:var(--label3);">1ª mala</span></div>
+                <div style="font-size:11px;font-weight:600;color:var(--orange);margin-top:2px;">$135 <span style="font-size:8px;color:var(--label3);">2ª mala</span></div>
+              </div>
+              <div style="background:var(--card);border-radius:8px;padding:7px 6px;">
+                <div style="font-size:9px;font-weight:600;color:var(--label3);margin-bottom:4px;">Economy Classic</div>
+                <div style="font-size:12px;font-weight:700;color:var(--green);">Inclusa <span style="font-size:8px;color:var(--label3);">1ª</span></div>
+                <div style="font-size:11px;font-weight:600;color:var(--orange);margin-top:2px;">$130 <span style="font-size:8px;color:var(--label3);">2ª mala</span></div>
+              </div>
+              <div style="background:var(--card);border-radius:8px;padding:7px 6px;">
+                <div style="font-size:9px;font-weight:600;color:var(--label3);margin-bottom:4px;">Economy Full</div>
+                <div style="font-size:12px;font-weight:700;color:var(--green);">Inclusa <span style="font-size:8px;color:var(--label3);">1ª</span></div>
+                <div style="font-size:11px;font-weight:600;color:var(--green);margin-top:2px;">Inclusa <span style="font-size:8px;color:var(--label3);">2ª</span></div>
+              </div>
+            </div>
+            <div style="background:rgba(255,149,0,.1);border-radius:7px;padding:7px 9px;margin-bottom:6px;">
+              <div style="font-size:11px;font-weight:600;color:var(--orange);">💡 Se Economy Basic · 3 pax · 1 mala cada</div>
+              <div style="font-size:11px;color:var(--label2);margin-top:2px;">Por trecho: <strong>3 × $100 = $300 USD</strong> · Ida + volta: <strong>$600 USD ≈ R$ 3.300</strong></div>
+            </div>
+            <div style="font-size:10px;color:var(--label3);line-height:1.5;">Limite 23kg (50 lb) por mala · 3ª em diante $220 USD · Mais barato comprar online · Válido para passagens emitidas antes de 15 abr 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTIFICAÇÕES -->
+    <div class="section"><div class="sec-hd">🔔 Lembretes · Dia 6 de Junho</div></div>
+    <div class="notif-card">
+      <div class="notif-hd">
+        <div>
+          <div class="notif-hd-title">Notificações do voo</div>
+          <div class="notif-hd-sub" id="notif-sub">Ative para receber alertas no seu celular</div>
+        </div>
+        <button class="ntoggle" id="notif-btn" onclick="toggleNotif()">Ativar</button>
+      </div>
+
+      <div class="notif-row">
+        <div class="notif-time"><div class="notif-t">01:30</div><div class="notif-d">Sáb 6 Jun</div></div>
+        <div class="ndot" id="dot-checkin"></div>
+        <div class="notif-body">
+          <div class="notif-title">📱 Check-in aberto! Faça agora</div>
+          <div class="notif-sub">copa.com · Código AYR0VO · Selecione os assentos dos 3</div>
+        </div>
+      </div>
+
+      <div class="notif-row">
+        <div class="notif-time"><div class="notif-t">09:00</div><div class="notif-d">Sáb 6 Jun</div></div>
+        <div class="ndot" id="dot-bag"></div>
+        <div class="notif-body">
+          <div class="notif-title">📦 Bagagem despachada?</div>
+          <div class="notif-sub">Economy Basic: $100/mala por pessoa · 3 malas = $300 por trecho · Adicione online em copa.com (mais barato que no aeroporto)</div>
+        </div>
+      </div>
+
+      <div class="notif-row">
+        <div class="notif-time"><div class="notif-t">21:30</div><div class="notif-d">Sáb 6 Jun</div></div>
+        <div class="ndot" id="dot-aero"></div>
+        <div class="notif-body">
+          <div class="notif-title">🚗 Hora de ir pro aeroporto!</div>
+          <div class="notif-sub">Voo às 01:30 · 4h de antecedência · Guarulhos Terminal 3</div>
+        </div>
+      </div>
+
+      <div class="notif-row">
+        <div class="notif-time"><div class="notif-t">00:00</div><div class="notif-d">Dom 7 Jun</div></div>
+        <div class="ndot" id="dot-board"></div>
+        <div class="notif-body">
+          <div class="notif-title">✈️ 1h30 para o embarque!</div>
+          <div class="notif-sub">CM758 GRU→PTY · Vai com tudo, família! 🏆⚽</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:8px;"></div>
+
+  </div>
+</div><!-- /view-voo -->
+
+
+<script>
+/* ── JOGOS DATA ─────────────────────────────────── */
+const KNOCKOUT={
+  M76:{confirmed:false,t1n:"1º Grupo C",t1f:null,t2n:"2º Grupo F",t2f:null},
+  M78:{confirmed:false,t1n:"2º Grupo E",t1f:null,t2n:"2º Grupo I",t2f:null}
+};
+const FLAG_CDN="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/";
+const ALL_FLAGS=["pt","cd","nl","jp","se","uz","cv","sa","br","ma","ht","gb-sct","tn","de","ci","ec","cw","fr","sn","no","iq"];
+const MATCHES=[
+  {id:"M11",kickoff:new Date("2026-06-14T20:00:00Z"),label:"Holanda vs Jap\u00e3o",timeCT:"15:00",dep_ct:"09:30 CT",dep_brt:"11:30 BRT"},
+  {id:"M23",kickoff:new Date("2026-06-17T17:00:00Z"),label:"Portugal vs RD Congo",timeCT:"12:00",dep_ct:"07:00 CT",dep_brt:"09:00 BRT"},
+  {id:"M35",kickoff:new Date("2026-06-20T17:00:00Z"),label:"Holanda vs Su\u00e9cia",timeCT:"12:00",dep_ct:"07:00 CT",dep_brt:"09:00 BRT"},
+  {id:"M47",kickoff:new Date("2026-06-23T17:00:00Z"),label:"Portugal vs Uzbequist\u00e3o",timeCT:"12:00",dep_ct:"07:00 CT",dep_brt:"09:00 BRT"},
+  {id:"M65",kickoff:new Date("2026-06-27T00:00:00Z"),label:"Cabo Verde vs Ar\u00e1bia Saudita",timeCT:"19:00",dep_ct:"14:00 CT",dep_brt:"16:00 BRT"},
+  {id:"M76",kickoff:new Date("2026-06-29T17:00:00Z"),label:"M76 - D\u00e9cimas Sextas",timeCT:"12:00",dep_ct:"07:00 CT",dep_brt:"09:00 BRT"},
+  {id:"M78",kickoff:new Date("2026-06-30T17:00:00Z"),label:"M78 - D\u00e9cimas Sextas",timeCT:"12:00",dep_ct:"06:30 CT",dep_brt:"08:30 BRT"},
+];
+const TZ_DATA={
+  M11:{ct:"15:00 CT",brt:"17:00 BRT",dep_ct:"🚗 Sair \u00e0s 09:30 CT",dep_brt:"🚗 Sair \u00e0s 11:30 BRT"},
+  M23:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
+  M35:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
+  M47:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
+  M65:{ct:"19:00 CT",brt:"21:00 BRT",dep_ct:"🚗 Sair \u00e0s 14:00 CT",dep_brt:"🚗 Sair \u00e0s 16:00 BRT"},
+  M76:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
+  M78:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 06:30 CT",dep_brt:"🚗 Sair \u00e0s 08:30 BRT"},
+};
+
+/* ── VOO DATA ───────────────────────────────────── */
+// CM758: decolagem 01:30 BRT dom 7 jun = 04:30 UTC
+const VOO_IDA   = new Date("2026-06-07T04:30:00Z");
+// CM716: decolagem 15:36 CT qui 2 jul (CT=UTC-5) = 20:36 UTC
+const VOO_VOLTA = new Date("2026-07-02T20:36:00Z");
+
+// Notificações disparadas no dia 6 de junho (BRT = UTC-3)
+const NOTIFS=[
+  // Check-in abre 24h antes do voo (01:30 BRT 7jun → 01:30 BRT 6jun = 04:30 UTC 6jun)
+  {id:"checkin", dotId:"dot-checkin", at:new Date("2026-06-06T04:30:00Z"),
+   title:"📱 Check-in aberto! Faça agora",
+   body:"Copa CM758 · Código AYR0VO · 3 passageiros · copa.com"},
+  // Manhã: 09:00 BRT 6jun = 12:00 UTC
+  {id:"bag",     dotId:"dot-bag",     at:new Date("2026-06-06T12:00:00Z"),
+   title:"📦 Bagagem despachada?",
+   body:"Economy Basic: $100 por mala (23kg). 3 malas = $300 USD por trecho. Adicione agora em copa.com — no aeroporto é mais caro!"},
+  // Sair 4h antes: 01:30 - 4h = 21:30 BRT 6jun = 00:30 UTC 7jun
+  {id:"aero",    dotId:"dot-aero",    at:new Date("2026-06-07T00:30:00Z"),
+   title:"🚗 Hora de ir pro aeroporto!",
+   body:"Voo às 01:30 · Guarulhos Terminal 3 · 4h de antecedência"},
+  // 1:30 antes do voo = meia-noite BRT = 03:00 UTC 7jun
+  {id:"board",   dotId:"dot-board",   at:new Date("2026-06-07T03:00:00Z"),
+   title:"✈️ 1h30 para o embarque!",
+   body:"CM758 GRU→PTY partindo! Boa viagem, família! 🏆"},
+];
+
+/* ── ESTADO ─────────────────────────────────────── */
+let tz="ct", done={}, notifAtiva=false;
+const timers=[];
+
+/* ── TABS ───────────────────────────────────────── */
+function switchTab(t){
+  ["jogos","voo"].forEach(v=>{
+    document.getElementById("view-"+v).classList.toggle("on",v===t);
+    document.getElementById("tab-"+v).classList.toggle("on",v===t);
+  });
+  if(t==="voo"){ updateVooBanner(); updateNotifUI(); }
+}
+
+/* ── TZ ─────────────────────────────────────────── */
+function setTZ(t){
+  tz=t;
+  document.querySelectorAll(".time-m").forEach(el=>el.textContent=TZ_DATA[el.dataset.id][t]);
+  document.querySelectorAll(".dep-chip").forEach(el=>el.textContent=TZ_DATA[el.dataset.id]["dep_"+t]);
+  document.getElementById("btn-ct").classList.toggle("on",t==="ct");
+  document.getElementById("btn-brt").classList.toggle("on",t==="brt");
+  showBanner();
+}
+
+/* ── MARCAR JOGO ────────────────────────────────── */
+function chk(id){
+  done[id]=!done[id];
+  document.getElementById("card-"+id).classList.toggle("checked",done[id]);
+  document.getElementById("chk-"+id).classList.toggle("done",done[id]);
+  if(navigator.vibrate) navigator.vibrate(done[id]?[8,40,8]:25);
+  document.getElementById("stat-a").textContent=Object.values(done).filter(Boolean).length;
+  const dot=document.getElementById("tl-"+id);
+  if(dot) dot.style.background=done[id]?"var(--sep)":(["M76","M78"].includes(id)?"var(--green)":"var(--orange)");
+}
+
+/* ── COUNTDOWN JOGOS ────────────────────────────── */
+function updateCountdowns(){
+  const now=new Date();
+  MATCHES.forEach(m=>{
+    const el=document.querySelector(".cd-"+m.id);
+    if(!el) return;
+    const diff=m.kickoff-now;
+    if(diff<=0){el.textContent="\u2705 Encerrado";el.className="chip c-ok";return;}
+    const days=Math.floor(diff/86400000),hrs=Math.floor(diff/3600000);
+    if(days===0) el.textContent="\uD83D\uDD34 HOJE em "+hrs+"h";
+    else if(days===1) el.textContent="\u26A0\uFE0F AMANH\u00c3!";
+    else el.textContent="\u23F3 "+days+" dias";
+  });
+}
+
+function showBanner(){
+  const now=new Date();
+  const next=MATCHES.find(m=>m.kickoff>now);
+  const b=document.getElementById("next-banner");
+  if(!next){b.textContent="\uD83C\uDFC6 Todos os jogos encerrados!";b.className="next-banner b-done";b.style.display="block";return;}
+  const diff=next.kickoff-now;
+  const days=Math.floor(diff/86400000),hrs=Math.floor(diff/3600000);
+  const dep=tz==="ct"?next.dep_ct:next.dep_brt;
+  let msg,cls;
+  if(hrs<0){msg="\uD83D\uDD34 Jogo em andamento \u2014 "+next.label;cls="b-live";}
+  else if(days===0){msg="\uD83D\uDD34 HOJE \u00e0s "+next.timeCT+" CT! "+next.label+" \u00b7 \uD83D\uDE97 Saia \u00e0s "+dep+"!";cls="b-today";}
+  else if(days===1){msg="\u26A0\uFE0F AMANH\u00c3: "+next.label+" \u00b7 Sair \u00e0s "+dep;cls="b-tomorrow";}
+  else if(days<=7){msg="\u26A1 Em "+days+" dias: "+next.label;cls="b-soon";}
+  else{msg="\u26BD Pr\u00f3ximo jogo em "+days+" dias: "+next.label;cls="b-default";}
+  b.textContent=msg;b.className="next-banner "+cls;b.style.display="block";
+}
+
+/* ── BANNER VOO ─────────────────────────────────── */
+function updateVooBanner(){
+  const now=new Date();
+  const b=document.getElementById("voo-banner");
+  const stat=document.getElementById("vst-dias");
+  const diffIda=VOO_IDA-now, diffVolta=VOO_VOLTA-now;
+  if(diffIda>0){
+    const days=Math.floor(diffIda/86400000);
+    const hrs=Math.floor((diffIda%86400000)/3600000);
+    stat.textContent=days;
+    if(days===0&&hrs<=4){b.className="voo-banner laranja";b.textContent="🚨 Menos de 4h! Vai pro aeroporto de Guarulhos agora!";}
+    else if(days===0){b.className="voo-banner laranja";b.textContent="🔴 HOJE À NOITE! Voo às 01:30 BRT · Saia de casa às 21:30!";}
+    else if(days===1){b.className="voo-banner laranja";b.textContent="⚡ AMANHÃ À NOITE! Voo 01:30 · Faça check-in e prepare as malas!";}
+    else{b.className="voo-banner azul";b.textContent="✈️ Embarque em "+days+" dias e "+hrs+"h · Sábado 6 de Junho à noite";}
+  } else if(diffVolta>0){
+    const days=Math.floor(diffVolta/86400000);
+    stat.textContent=days+"d";
+    b.className="voo-banner verde";
+    b.textContent="🏆 Curtindo Austin! Volta em "+days+" dias · Qui 2 Jul 15:36 CT";
+  } else {
+    stat.textContent="✓";
+    b.className="voo-banner verde";
+    b.textContent="✅ Viagem concluída! Bem-vindos de volta ao Brasil 🇧🇷";
+  }
+}
+
+/* ── NOTIFICAÇÕES ───────────────────────────────── */
+function updateNotifUI(){
+  const btn=document.getElementById("notif-btn");
+  const sub=document.getElementById("notif-sub");
+  const now=new Date();
+  if(!("Notification" in window)){
+    btn.textContent="Não suportado";btn.disabled=true;
+    sub.textContent="Seu navegador não suporta notificações";return;
+  }
+  if(Notification.permission==="denied"){
+    btn.textContent="Bloqueado";btn.disabled=true;
+    sub.textContent="Ative nas configurações do celular";return;
+  }
+  if(notifAtiva&&Notification.permission==="granted"){
+    btn.textContent="✓ Ativo";btn.className="ntoggle on";
+    sub.textContent="4 lembretes agendados para o dia 6 de junho";
+  } else {
+    btn.textContent="Ativar";btn.className="ntoggle";
+    sub.textContent="Ative para receber alertas no seu celular";
+  }
+  // Bolinhas de status
+  NOTIFS.forEach(n=>{
+    const dot=document.getElementById(n.dotId);if(!dot)return;
+    if(now>n.at) dot.className="ndot done";
+    else if(notifAtiva&&Notification.permission==="granted") dot.className="ndot ok";
+    else dot.className="ndot warn";
+  });
+}
+
+async function toggleNotif(){
+  if(!("Notification" in window))return;
+  if(notifAtiva){
+    notifAtiva=false;timers.forEach(t=>clearTimeout(t));timers.length=0;
+    updateNotifUI();return;
+  }
+  const perm=await Notification.requestPermission();
+  if(perm!=="granted"){updateNotifUI();return;}
+  notifAtiva=true;
+  scheduleNotifs();
+  updateNotifUI();
+  new Notification("✅ Lembretes ativados!",{
+    body:"Você receberá 4 avisos no dia 6 de junho. Deixe o app aberto ou salvo na tela de início.",
+    icon:"https://www.fifplay.com/img/public/fifa-world-cup-2026-logo-alt.png"
+  });
+}
+
+function scheduleNotifs(){
+  const now=new Date();
+  NOTIFS.forEach(n=>{
+    const ms=n.at-now;if(ms<=0)return;
+    timers.push(setTimeout(()=>{
+      if(Notification.permission==="granted")
+        new Notification(n.title,{
+          body:n.body,
+          icon:"https://www.fifplay.com/img/public/fifa-world-cup-2026-logo-alt.png",
+          requireInteraction:true
+        });
+    },ms));
+  });
+}
+
+/* ── KNOCKOUT ───────────────────────────────────── */
+function applyKnockout(){
+  ["M76","M78"].forEach(id=>{
+    const m=KNOCKOUT[id];if(!m||!m.confirmed)return;
+    const c=document.getElementById("ko-teams-"+id);if(!c)return;
+    c.innerHTML=`<div class="teams" style="margin-bottom:8px;">
+      <div class="flag-c" style="background-image:url('${FLAG_CDN}${m.t1f}.svg');"></div>
+      <span class="tname">${m.t1n}</span><span class="vs">vs</span>
+      <span class="tname">${m.t2n}</span>
+      <div class="flag-c" style="background-image:url('${FLAG_CDN}${m.t2f}.svg');"></div>
+    </div><div class="chips" style="margin-bottom:6px;"><span class="chip c-ok">\u2705 Confronto confirmado!</span></div>`;
+    const match=MATCHES.find(x=>x.id===id);
+    if(match) match.label=m.t1n+" vs "+m.t2n;
+  });
+  if(["M76","M78"].some(id=>KNOCKOUT[id]&&KNOCKOUT[id].confirmed)){
+    const h=document.getElementById("ko-hint");
+    if(h) h.textContent="\u00b7 confrontos definidos \u2705";
+  }
+}
+
+/* ── SERVICE WORKER + MANIFEST ──────────────────── */
+function registerSW(){
+  if(!("serviceWorker" in window))return;
+  const urls=["https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css",
+    ...ALL_FLAGS.map(f=>FLAG_CDN+f+".svg")];
+  const sw=`const C="copa2026-v5",U=${JSON.stringify(urls)};
+self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(U).catch(()=>{})).then(()=>self.skipWaiting()));});
+self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
+self.addEventListener("fetch",e=>{if(!e.request.url.startsWith("http"))return;e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{if(res&&res.ok){const cl=res.clone();caches.open(C).then(c=>c.put(e.request,cl));}return res;}).catch(()=>undefined)));});`;
+  try{navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:"application/javascript"}))).catch(()=>{});}catch(e){}
+}
+function setupManifest(){
+  try{
+    const m={name:"Copa 2026 · Austin",short_name:"Copa 2026",start_url:".",display:"standalone",background_color:"#F2F2F7",theme_color:"#1a64b9",orientation:"portrait"};
+    const l=document.createElement("link");l.rel="manifest";l.href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:"application/json"}));document.head.appendChild(l);
+  }catch(e){}
+}
+
+
+/* ── RELÓGIO DUPLO BRT / CT ─────────────────────────────── */
+function updateClock(){
+  const now = new Date();
+  // BRT = UTC-3
+  const brt = new Date(now.toLocaleString("en-US",{timeZone:"America/Sao_Paulo"}));
+  // CT = America/Chicago (cuida do horário de verão automaticamente)
+  const ct  = new Date(now.toLocaleString("en-US",{timeZone:"America/Chicago"}));
+
+  const fmt = d => d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+  const elB = document.getElementById("clk-brt");
+  const elC = document.getElementById("clk-ct");
+  const elD = document.getElementById("clk-diff");
+  if(elB) elB.textContent = fmt(brt);
+  if(elC) elC.textContent = fmt(ct);
+
+  if(elD){
+    const diffH = Math.round((brt - ct) / 3600000);
+    elD.textContent = diffH > 0 ? `SP está ${diffH}h à frente de Austin` : `Austin está ${Math.abs(diffH)}h à frente`;
+  }
+}
+setInterval(updateClock, 1000);
+
+/* ── TABS DOS ESTÁDIOS ───────────────────────────────────── */
+function stadTab(stad, tab){
+  const panels = ['park','rules','food'];
+  panels.forEach(p => {
+    const el = document.getElementById(stad+'-'+p);
+    if(el) el.classList.toggle('on', p === tab);
+  });
+  // Update tab buttons
+  const card = document.getElementById(stad+'-'+tab)?.closest('.stad-card');
+  if(!card) return;
+  card.querySelectorAll('.stad-tab').forEach((btn, i) => {
+    btn.classList.toggle('on', panels[i] === tab);
+  });
+}
+
+/* ── PREVISÃO DO TEMPO (Claude API + web search) ─────────── */
+let wxFetched = false;
+
+async function fetchWeather(){
+  if(wxFetched) return;
+  const btn = document.getElementById("wx-btn");
+  const body = document.getElementById("wx-body");
+  const sub  = document.getElementById("wx-sub");
+  btn.disabled = true;
+  btn.textContent = "⟳";
+  btn.style.animation = "spin .8s linear infinite";
+  sub.textContent = "Consultando previsão...";
+  body.innerHTML = `<div style="text-align:center;padding:20px 0;font-size:13px;color:var(--label2);"><span style="font-size:22px;display:block;margin-bottom:8px;animation:spin .8s linear infinite;display:inline-block;">⟳</span><br>Buscando previsão para Houston e Arlington em junho...</div>`;
+
+  const prompt = `Você é um assistente de viagem. Meus jogos da Copa do Mundo 2026 são:
+- 14 jun (Dom): Houston, NRG Park — 15:00 CT (Holanda vs Japão)
+- 17 jun (Qua): Houston, NRG Park — 12:00 CT (Portugal vs RD Congo)
+- 20 jun (Sáb): Houston, NRG Park — 12:00 CT (Holanda vs Suécia)
+- 23 jun (Ter): Houston, NRG Park — 12:00 CT (Portugal vs Uzbequistão)
+- 26 jun (Sex): Houston, NRG Park — 19:00 CT (Cabo Verde vs Arábia Saudita)
+- 29 jun (Seg): Houston, NRG Park — 12:00 CT (jogo das oitavas)
+- 30 jun (Ter): Arlington, AT&T Stadium — 12:00 CT (jogo das oitavas)
+
+Busque a previsão do tempo (ou médias climáticas se ainda não houver previsão) para cada data/local. Responda em português brasileiro de forma compacta, com temperatura máx/mín, chance de chuva e uma dica prática para cada jogo. Use emojis: ☀️🌤️⛅🌧️⛈️. Seja direto.`;
+
+  try {
+    const resp = await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens:1000,
+        tools:[{type:"web_search_20250305",name:"web_search"}],
+        messages:[{role:"user",content:prompt}]
+      })
+    });
+    const data = await resp.json();
+    if(!resp.ok) throw new Error(data.error?.message||"Erro");
+    const text = data.content.filter(b=>b.type==="text").map(b=>b.text).join("\n").trim();
+    if(!text) throw new Error("Resposta vazia");
+    wxFetched = true;
+    const updated = new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+    body.innerHTML = `<div style="font-size:13px;color:var(--label);line-height:1.8;white-space:pre-wrap;">${text.replace(/CM\d{3}/g,m=>`<strong>${m}</strong>`)}</div><div style="font-size:10px;color:var(--label3);margin-top:10px;padding-top:8px;border-top:.5px solid var(--sep);">🔍 Consultado às ${updated} · Confirme sempre em weather.com ou no app de clima</div>`;
+    sub.textContent = `Atualizado às ${updated}`;
+    btn.textContent = "✓";
+    btn.style.background = "var(--green)";
+    btn.style.animation = "";
+  } catch(err) {
+    body.innerHTML = `<div style="font-size:13px;color:var(--label2);">⚠️ Não foi possível buscar: ${err.message}</div>`;
+    btn.disabled = false;
+    btn.textContent = "Tentar novamente";
+    btn.style.animation = "";
+    sub.textContent = "Erro na busca";
+  }
+}
+
+/* ── FLIGHT STATUS (Claude API + web search) ──── */
+let lastStatusCheck = null;
+
+async function checkFlightStatus() {
+  const btn = document.getElementById("status-btn");
+  const body = document.getElementById("status-body");
+  const sub  = document.getElementById("status-sub");
+
+  // Throttle: só permite nova busca após 3 minutos
+  const now = Date.now();
+  if (lastStatusCheck && now - lastStatusCheck < 180000) {
+    const secs = Math.ceil((180000 - (now - lastStatusCheck)) / 1000);
+    body.innerHTML = `<div class="status-body"><div class="status-idle"><div class="status-idle-icon">⏳</div><div class="status-idle-txt">Aguarde ${secs}s antes de verificar novamente.</div></div></div>`;
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spin">⟳</span> Buscando...`;
+  sub.textContent = "Consultando em tempo real...";
+  body.innerHTML = `<div style="padding:20px 0;text-align:center;color:var(--label2);font-size:13px;"><span class="spin" style="font-size:20px;display:block;margin-bottom:8px;">⟳</span>Buscando status dos voos Copa Airlines…</div>`;
+
+  const today = new Date().toLocaleDateString("pt-BR", { day:"2-digit", month:"2-digit", year:"numeric" });
+
+  const prompt = `Você é um assistente de viagem. Hoje é ${today}.
+
+Meus voos Copa Airlines são:
+- IDA: CM758 (GRU→PTY, 7 Jun 2026 01:30) + CM715 (PTY→AUS, 7 Jun 2026 09:09)
+- VOLTA: CM716 (AUS→PTY, 2 Jul 2026 15:36) + CM759 (PTY→GRU, 2 Jul 2026 21:41)
+
+Faça uma busca na web e me informe:
+1. Há alguma mudança de horário, portão ou cancelamento nesses voos?
+2. Se os voos ainda não aconteceram, há notícias ou alertas da Copa Airlines que possam afetá-los (greves, interrupções, mudanças de rota)?
+3. Qual o status atual de cada voo?
+
+Responda de forma direta e objetiva em português brasileiro. Se não houver nenhuma mudança, diga claramente que tudo está no horário. Use emojis para deixar claro o status (✅ no horário, ⚠️ atenção, ❌ cancelado/problema).`;
+
+  try {
+    const resp = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        tools: [{ type: "web_search_20250305", name: "web_search" }],
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    const data = await resp.json();
+
+    if (!resp.ok) throw new Error(data.error?.message || "Erro na API");
+
+    // Extrair texto da resposta (pode ter blocos de tool_use + text)
+    const textBlocks = data.content.filter(b => b.type === "text");
+    const text = textBlocks.map(b => b.text).join("\n").trim();
+
+    if (!text) throw new Error("Resposta vazia");
+
+    lastStatusCheck = Date.now();
+    const checkTime = new Date().toLocaleTimeString("pt-BR", {hour:"2-digit",minute:"2-digit"});
+
+    // Detectar status geral pelo conteúdo
+    let pillHtml = "";
+    const lower = text.toLowerCase();
+    if (lower.includes("cancelad") || lower.includes("❌")) {
+      pillHtml = `<div class="status-pill err">❌ Atenção: possível problema</div>`;
+    } else if (lower.includes("atraso") || lower.includes("mudança") || lower.includes("⚠️")) {
+      pillHtml = `<div class="status-pill warn">⚠️ Há atualizações</div>`;
+    } else {
+      pillHtml = `<div class="status-pill ok">✅ Tudo no horário</div>`;
+    }
+
+    // Formatar texto com negrito para voos
+    const formatted = text
+      .replace(/CM\d{3}/g, m => `<strong>${m}</strong>`)
+      .replace(/✅/g, "<strong>✅</strong>")
+      .replace(/⚠️/g, "<strong>⚠️</strong>")
+      .replace(/❌/g, "<strong>❌</strong>");
+
+    body.innerHTML = `
+      <div class="status-body">
+        ${pillHtml}
+        <div class="status-result">${formatted}</div>
+        <div class="status-footer">🔍 Consultado via busca web · ${checkTime} · Dados sujeitos a mudanças. Confirme sempre em copa.com ou no aeroporto.</div>
+      </div>`;
+
+    sub.textContent = `Última verificação: ${checkTime}`;
+
+  } catch (err) {
+    body.innerHTML = `
+      <div class="status-body">
+        <div class="status-pill err">⚠️ Não foi possível verificar</div>
+        <div class="status-result">Ocorreu um erro ao consultar o status: ${err.message}\n\nVerifique manualmente em copa.com ou no app da Copa Airlines.</div>
+      </div>`;
+    sub.textContent = "Erro na verificação";
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = "Verificar";
+  }
+}
+
+/* ── INIT ───────────────────────────────────────── */
+function init(){
+  setupManifest();registerSW();
+  updateCountdowns();showBanner();updateVooBanner();
+  applyKnockout();
+  // Reagendar se permissão já concedida
+  if(Notification.permission==="granted"){notifAtiva=true;scheduleNotifs();}
+  updateNotifUI();
+  if(navigator.standalone||matchMedia("(display-mode:standalone)").matches)
+    document.getElementById("ibanner").classList.add("gone");
+  updateClock();
+  setInterval(()=>{updateCountdowns();showBanner();updateVooBanner();updateNotifUI();},60000);
+}
+window.addEventListener("DOMContentLoaded",init);
+</script>
+</body>
+</html>
