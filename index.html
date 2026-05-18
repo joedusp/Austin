@@ -86,7 +86,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
 .mmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
 .mdate{font-size:11px;font-weight:500;color:var(--label2);}
 .mnum{font-size:11px;font-weight:700;color:var(--blue);}
-.new-badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:20px;margin-left:5px;vertical-align:middle;}
+
 .teams{display:flex;align-items:center;gap:7px;margin-bottom:8px;flex-wrap:wrap;}
 .flag-c{width:28px;height:28px;border-radius:50%;background-size:cover;background-position:center;border:.5px solid rgba(128,128,128,.2);flex-shrink:0;}
 .tname{font-size:15px;font-weight:600;}
@@ -322,6 +322,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
     <button class="tab-btn" id="tab-voo" onclick="switchTab('voo')">
       <span class="tab-icon">✈️</span>Voo
     </button>
+    <button class="tab-btn" id="tab-amiga" onclick="switchTab('amiga')">
+      <span class="tab-icon">👩</span>Maria C.
+    </button>
   </div>
 </div>
 
@@ -407,7 +410,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
       <div class="cgroup">
 
         <div class="mcard" id="card-M11"><div class="accent-g"></div><div class="mbody">
-          <div class="mmeta"><span class="mdate">DOM, 14 JUN<span class="new-badge">NOVO</span></span><span class="mnum">M11</span></div>
+          <div class="mmeta"><span class="mdate">DOM, 14 JUN</span><span class="mnum">M11</span></div>
           <div class="teams">
             <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/nl.svg');"></div>
             <span class="tname">Holanda</span><span class="vs">vs</span><span class="tname">Japão</span>
@@ -1009,11 +1012,14 @@ const timers=[];
 
 /* ── TABS ───────────────────────────────────────── */
 function switchTab(t){
-  ["jogos","voo"].forEach(v=>{
-    document.getElementById("view-"+v).classList.toggle("on",v===t);
-    document.getElementById("tab-"+v).classList.toggle("on",v===t);
+  ["jogos","voo","amiga"].forEach(v=>{
+    const vw=document.getElementById("view-"+v);
+    const tb=document.getElementById("tab-"+v);
+    if(vw) vw.classList.toggle("on",v===t);
+    if(tb) tb.classList.toggle("on",v===t);
   });
   if(t==="voo"){ updateVooBanner(); updateNotifUI(); }
+  if(t==="amiga"){ updateAmigaBanner(); updateAmigaNotifUI(); }
 }
 
 /* ── TZ ─────────────────────────────────────────── */
@@ -1105,8 +1111,8 @@ function updateNotifUI(){
     sub.textContent="Seu navegador não suporta notificações";return;
   }
   if(Notification.permission==="denied"){
-    btn.textContent="Bloqueado";btn.disabled=true;
-    sub.textContent="Ative nas configurações do celular";return;
+    btn.textContent="🔒 Bloqueado";btn.className="ntoggle";btn.disabled=false;
+    sub.textContent="Toque no botão para ver como desbloquear";return;
   }
   if(notifAtiva&&Notification.permission==="granted"){
     btn.textContent="✓ Ativo";btn.className="ntoggle on";
@@ -1126,6 +1132,26 @@ function updateNotifUI(){
 
 async function toggleNotif(){
   if(!("Notification" in window))return;
+
+  // Já bloqueado — mostrar instruções de como desbloquear
+  if(Notification.permission==="denied"){
+    const sub=document.getElementById("notif-sub");
+    const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isAndroid=/android/i.test(navigator.userAgent);
+    let instrucoes;
+    if(isIOS){
+      instrucoes="📱 iPhone: Ajustes → Toque no app Copa 2026 → Notificações → Permitir";
+    } else if(isAndroid){
+      instrucoes="📱 Android: Configurações → Apps → Chrome/Navegador → Notificações → Permitir este site";
+    } else {
+      instrucoes="🖥️ Clique no cadeado na barra de endereços → Notificações → Permitir → recarregue a página";
+    }
+    // Mostra alerta simples e atualiza subtítulo
+    alert("Notificações bloqueadas.\n\n" + instrucoes + "\n\nDepois de permitir, volte aqui e toque em Ativar.");
+    sub.textContent=instrucoes;
+    return;
+  }
+
   if(notifAtiva){
     notifAtiva=false;timers.forEach(t=>clearTimeout(t));timers.length=0;
     updateNotifUI();return;
@@ -1232,60 +1258,125 @@ function stadTab(stad, tab){
   });
 }
 
-/* ── PREVISÃO DO TEMPO (Claude API + web search) ─────────── */
-let wxFetched = false;
+/* ── PREVISÃO DO TEMPO (Open-Meteo · grátis · sem chave) ─── */
+// Dentro de 16 dias: previsão real. Fora disso: médias de junho.
+const GAMES_WX = [
+  {id:"M11", date:"2026-06-14", label:"14 Jun · Holanda vs Japão",      local:"Arlington",lat:32.7473, lon:-97.0944},
+  {id:"M23", date:"2026-06-17", label:"17 Jun · Portugal vs RD Congo",   local:"Houston",  lat:29.6850, lon:-95.4100},
+  {id:"M35", date:"2026-06-20", label:"20 Jun · Holanda vs Suécia",      local:"Houston",  lat:29.6850, lon:-95.4100},
+  {id:"M47", date:"2026-06-23", label:"23 Jun · Portugal vs Uzbequistão",local:"Houston",  lat:29.6850, lon:-95.4100},
+  {id:"M65", date:"2026-06-26", label:"26 Jun · Cabo Verde vs Arábia",   local:"Houston",  lat:29.6850, lon:-95.4100},
+  {id:"M76", date:"2026-06-29", label:"29 Jun · Oitavas (NRG)",          local:"Houston",  lat:29.6850, lon:-95.4100},
+  {id:"M78", date:"2026-06-30", label:"30 Jun · Oitavas (AT&T)",         local:"Arlington",lat:32.7473, lon:-97.0944},
+];
+
+// Médias climáticas históricas de junho (fallback)
+const CLIMATE = {
+  Houston:  {max:34, min:25, rain:40, desc:"☀️⛈️ Junho quente e úmido — trovoadas à tarde são comuns"},
+  Arlington:{max:36, min:25, rain:30, desc:"☀️ Mais seco que Houston — calor intenso, UV muito alto"},
+};
+
+// WMO code → emoji
+function wxEmoji(code){
+  if(code===0) return "☀️";
+  if(code<=3)  return "🌤️";
+  if(code<=48) return "🌫️";
+  if(code<=67) return "🌧️";
+  if(code<=77) return "🌨️";
+  if(code<=82) return "🌦️";
+  return "⛈️";
+}
 
 async function fetchWeather(){
-  if(wxFetched) return;
-  const btn = document.getElementById("wx-btn");
+  const btn  = document.getElementById("wx-btn");
   const body = document.getElementById("wx-body");
   const sub  = document.getElementById("wx-sub");
+
   btn.disabled = true;
-  btn.textContent = "⟳";
-  btn.style.animation = "spin .8s linear infinite";
-  sub.textContent = "Consultando previsão...";
-  body.innerHTML = `<div style="text-align:center;padding:20px 0;font-size:13px;color:var(--label2);"><span style="font-size:22px;display:block;margin-bottom:8px;animation:spin .8s linear infinite;display:inline-block;">⟳</span><br>Buscando previsão para Houston e Arlington em junho...</div>`;
+  btn.innerHTML = '<span class="spin">⟳</span>';
+  sub.textContent = "Buscando previsão...";
+  body.innerHTML = `<div style="text-align:center;padding:20px 0;font-size:13px;color:var(--label2);">
+    <span class="spin" style="font-size:24px;display:inline-block;">⟳</span>
+    <div style="margin-top:8px;">Consultando Open-Meteo para Houston e Arlington…</div></div>`;
 
-  const prompt = `Você é um assistente de viagem. Meus jogos da Copa do Mundo 2026 são:
-- 14 jun (Dom): Houston, NRG Park — 15:00 CT (Holanda vs Japão)
-- 17 jun (Qua): Houston, NRG Park — 12:00 CT (Portugal vs RD Congo)
-- 20 jun (Sáb): Houston, NRG Park — 12:00 CT (Holanda vs Suécia)
-- 23 jun (Ter): Houston, NRG Park — 12:00 CT (Portugal vs Uzbequistão)
-- 26 jun (Sex): Houston, NRG Park — 19:00 CT (Cabo Verde vs Arábia Saudita)
-- 29 jun (Seg): Houston, NRG Park — 12:00 CT (jogo das oitavas)
-- 30 jun (Ter): Arlington, AT&T Stadium — 12:00 CT (jogo das oitavas)
+  const now  = new Date();
+  const rows = [];
 
-Busque a previsão do tempo (ou médias climáticas se ainda não houver previsão) para cada data/local. Responda em português brasileiro de forma compacta, com temperatura máx/mín, chance de chuva e uma dica prática para cada jogo. Use emojis: ☀️🌤️⛅🌧️⛈️. Seja direto.`;
+  for(const g of GAMES_WX){
+    const gameDate = new Date(g.date + "T12:00:00");
+    const daysAway = Math.ceil((gameDate - now) / 86400000);
 
-  try {
-    const resp = await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        model:"claude-sonnet-4-20250514",
-        max_tokens:1000,
-        tools:[{type:"web_search_20250305",name:"web_search"}],
-        messages:[{role:"user",content:prompt}]
-      })
-    });
-    const data = await resp.json();
-    if(!resp.ok) throw new Error(data.error?.message||"Erro");
-    const text = data.content.filter(b=>b.type==="text").map(b=>b.text).join("\n").trim();
-    if(!text) throw new Error("Resposta vazia");
-    wxFetched = true;
-    const updated = new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
-    body.innerHTML = `<div style="font-size:13px;color:var(--label);line-height:1.8;white-space:pre-wrap;">${text.replace(/CM\d{3}/g,m=>`<strong>${m}</strong>`)}</div><div style="font-size:10px;color:var(--label3);margin-top:10px;padding-top:8px;border-top:.5px solid var(--sep);">🔍 Consultado às ${updated} · Confirme sempre em weather.com ou no app de clima</div>`;
-    sub.textContent = `Atualizado às ${updated}`;
-    btn.textContent = "✓";
-    btn.style.background = "var(--green)";
-    btn.style.animation = "";
-  } catch(err) {
-    body.innerHTML = `<div style="font-size:13px;color:var(--label2);">⚠️ Não foi possível buscar: ${err.message}</div>`;
-    btn.disabled = false;
-    btn.textContent = "Tentar novamente";
-    btn.style.animation = "";
-    sub.textContent = "Erro na busca";
+    if(daysAway > 16){
+      // Fora do alcance da API — usa médias climáticas
+      const cl = CLIMATE[g.local];
+      rows.push({
+        label: g.label,
+        local: g.local,
+        emoji: cl.desc.split(" ")[0],
+        max:   cl.max,
+        min:   cl.min,
+        rain:  cl.rain,
+        note:  `Média histórica de junho · previsão real disponível em ${daysAway - 16} dias`,
+        isForecast: false,
+      });
+    } else {
+      // Busca previsão real
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${g.lat}&longitude=${g.lon}` +
+          `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode` +
+          `&timezone=America%2FChicago&start_date=${g.date}&end_date=${g.date}`;
+        const res  = await fetch(url);
+        const data = await res.json();
+        const d    = data.daily;
+        rows.push({
+          label: g.label,
+          local: g.local,
+          emoji: wxEmoji(d.weathercode[0]),
+          max:   Math.round(d.temperature_2m_max[0]),
+          min:   Math.round(d.temperature_2m_min[0]),
+          rain:  d.precipitation_probability_max[0],
+          note:  "Previsão Open-Meteo",
+          isForecast: true,
+        });
+      } catch(e){
+        const cl = CLIMATE[g.local];
+        rows.push({
+          label:g.label, local:g.local, emoji:"🌤️",
+          max:cl.max, min:cl.min, rain:cl.rain,
+          note:"Erro na API · usando média histórica", isForecast:false,
+        });
+      }
+    }
   }
+
+  // Render
+  const updated = new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+  let html = '<div style="display:flex;flex-direction:column;gap:8px;">';
+  for(const r of rows){
+    const rainColor = r.rain > 60 ? "var(--red)" : r.rain > 30 ? "var(--orange)" : "var(--green)";
+    const bg = r.isForecast ? "rgba(52,199,89,.06)" : "var(--bg)";
+    html += `
+      <div style="background:${bg};border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:10px;">
+        <div style="font-size:26px;flex-shrink:0;">${r.emoji}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:600;margin-bottom:2px;">${r.label}</div>
+          <div style="font-size:11px;color:var(--label2);">📍 ${r.local}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:14px;font-weight:700;">${r.max}°<span style="font-size:11px;color:var(--label3);">/ ${r.min}°C</span></div>
+          <div style="font-size:11px;font-weight:600;color:${rainColor};">🌧️ ${r.rain}%</div>
+          <div style="font-size:9px;color:var(--label3);margin-top:2px;">${r.isForecast ? "✅ real" : "📊 média"}</div>
+        </div>
+      </div>`;
+  }
+  html += `</div><div style="font-size:10px;color:var(--label3);margin-top:10px;padding-top:8px;border-top:.5px solid var(--sep);">
+    🔄 Atualizado às ${updated} · Fonte: Open-Meteo (gratuito) · ✅ previsão real · 📊 média histórica de junho</div>`;
+
+  body.innerHTML = html;
+  sub.textContent = `Atualizado às ${updated}`;
+  btn.innerHTML  = "Atualizar";
+  btn.disabled   = false;
+  btn.style.background = "var(--green)";
 }
 
 /* ── FLIGHT STATUS (Claude API + web search) ──── */
@@ -1389,6 +1480,202 @@ Responda de forma direta e objetiva em português brasileiro. Se não houver nen
   }
 }
 
+
+/* ── AMIGA VOO DATA ─────────────────────────────────────────── */
+// LA8180 GRU decolagem: Dom 21 Jun 22:55 BRT = 01:55 UTC Seg 22
+const AMIGA_IDA   = new Date("2026-06-22T01:55:00Z");
+// LA6729 AUS chegada: Seg 22 Jun 14:10 CT = 19:10 UTC
+const AMIGA_CHEGA = new Date("2026-06-22T19:10:00Z");
+
+const AMIGA_NOTIFS = [
+  { id:"checkin",  dotId:"amiga-dot-checkin",
+    at: new Date("2026-06-21T01:55:00Z"), // 22:55 BRT Dom 20
+    title:"📱 Check-in LATAM aberto!",
+    body:"latam.com · NAPQTK · LA8180 GRU→JFK · Dom 21 Jun" },
+  { id:"aero",     dotId:"amiga-dot-aero",
+    at: new Date("2026-06-21T22:00:00Z"), // 19:00 BRT Dom 21
+    title:"🚗 Maria Cristina: hora de ir pro GRU!",
+    body:"Voo às 22:55 BRT · Terminal 3 Guarulhos · 3h de antecedência" },
+  { id:"board",    dotId:"amiga-dot-board",
+    at: new Date("2026-06-22T01:00:00Z"), // 22:00 BRT Dom 21
+    title:"✈️ Maria Cristina embarcando! LA8180",
+    body:"GRU→JFK decolando em breve! Pouso em NY às 07:40 EDT" },
+  { id:"lembrete", dotId:"amiga-dot-lembrete",
+    at: new Date("2026-06-22T17:00:00Z"), // 12:00 CT Seg 22
+    title:"🔔 Maria Cristina pousa às 14:10!",
+    body:"Prepare-se para buscar no AUS Bergstrom · Saia às 13:30 CT da base" },
+  { id:"sair",     dotId:"amiga-dot-sair",
+    at: new Date("2026-06-22T18:30:00Z"), // 13:30 CT Seg 22
+    title:"🚗 Saia agora para buscar Maria Cristina!",
+    body:"~30 min até o AUS Bergstrom · LA6729 pousa às 14:10 CT · Boa corrida! 🚗" },
+  { id:"chegou",   dotId:"amiga-dot-chegou",
+    at: new Date("2026-06-22T19:10:00Z"), // 14:10 CT Seg 22
+    title:"🎉 Maria Cristina chegou em Austin!",
+    body:"LA6729 pousou no AUS · Zona de pickup no Arrivals · Bem-vinda à Copa! 🏆" },
+];
+
+let amigaNotifAtiva = false;
+const amigaTimers = [];
+let lastAmigaStatusCheck = null;
+
+function updateAmigaBanner(){
+  const now  = new Date();
+  const b    = document.getElementById("amiga-banner");
+  const stat = document.getElementById("amiga-dias");
+  if(!b) return;
+
+  const diffIda   = AMIGA_IDA   - now;
+  const diffChega = AMIGA_CHEGA - now;
+
+  if(diffIda > 0){
+    const days = Math.floor(diffIda / 86400000);
+    const hrs  = Math.floor((diffIda % 86400000) / 3600000);
+    if(stat) stat.textContent = days;
+    if(days === 0){
+      b.className = "voo-banner laranja";
+      b.textContent = "🔴 HOJE À NOITE! Amiga parte às 22:55 BRT · Voo LA8180 GRU→JFK";
+    } else if(days === 1){
+      b.className = "voo-banner laranja";
+      b.textContent = "⚡ AMANHÃ À NOITE! Voo 22:55 BRT · Checou o check-in?";
+    } else {
+      b.className = "voo-banner azul";
+      b.textContent = `✈️ Amiga embarca em ${days} dias e ${hrs}h · Dom 21 Jun · GRU→JFK→AUS`;
+    }
+  } else if(diffChega > 0){
+    if(stat) stat.textContent = "✈️";
+    b.className = "voo-banner laranja";
+    b.textContent = "🛫 Amiga a caminho! Pousa em Austin às 14:10 CT · LA6729";
+  } else {
+    if(stat) stat.textContent = "✓";
+    b.className = "voo-banner verde";
+    b.textContent = "🎉 Amiga já está em Austin! Bem-vinda à Copa! 🏆";
+  }
+}
+
+function updateAmigaNotifUI(){
+  const btn = document.getElementById("amiga-notif-btn");
+  const sub = document.getElementById("amiga-notif-sub");
+  if(!btn) return;
+  const now = new Date();
+
+  if(!("Notification" in window)){
+    btn.textContent="Não suportado"; btn.disabled=true; return;
+  }
+  if(Notification.permission==="denied"){
+    btn.textContent="🔒 Bloqueado"; btn.className="ntoggle"; btn.disabled=false;
+    if(sub) sub.textContent="Toque para ver como desbloquear"; return;
+  }
+  if(amigaNotifAtiva && Notification.permission==="granted"){
+    btn.textContent="✓ Ativo"; btn.className="ntoggle on";
+    if(sub) sub.textContent="4 lembretes agendados para 20–22 de junho";
+  } else {
+    btn.textContent="Ativar"; btn.className="ntoggle";
+    if(sub) sub.textContent="Ative para receber alertas sobre o voo da amiga";
+  }
+  AMIGA_NOTIFS.forEach(n=>{
+    const dot = document.getElementById(n.dotId); if(!dot) return;
+    if(now > n.at) dot.className="ndot done";
+    else if(amigaNotifAtiva && Notification.permission==="granted") dot.className="ndot ok";
+    else dot.className="ndot warn";
+  });
+}
+
+async function toggleAmigaNotif(){
+  if(!("Notification" in window)) return;
+  if(Notification.permission==="denied"){
+    const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    const msg = isIOS
+      ? "Notificações bloqueadas.\n\niPhone: Ajustes → Copa 2026 → Notificações → Permitir"
+      : "Notificações bloqueadas.\n\nAndroid: Configurações → Apps → Notificações → Permitir este site";
+    alert(msg + "\n\nDepois de permitir, volte aqui e toque em Ativar.");
+    return;
+  }
+  if(amigaNotifAtiva){
+    amigaNotifAtiva=false; amigaTimers.forEach(t=>clearTimeout(t)); amigaTimers.length=0;
+    updateAmigaNotifUI(); return;
+  }
+  const perm = await Notification.requestPermission();
+  if(perm !== "granted"){ updateAmigaNotifUI(); return; }
+  amigaNotifAtiva = true;
+  scheduleAmigaNotifs();
+  updateAmigaNotifUI();
+  new Notification("✅ Lembretes da amiga ativados!",{
+    body:"Você receberá 4 avisos entre 20 e 22 de junho.",
+    icon:"https://www.fifplay.com/img/public/fifa-world-cup-2026-logo-alt.png"
+  });
+}
+
+function scheduleAmigaNotifs(){
+  const now = new Date();
+  AMIGA_NOTIFS.forEach(n=>{
+    const ms = n.at - now; if(ms <= 0) return;
+    amigaTimers.push(setTimeout(()=>{
+      if(Notification.permission==="granted")
+        new Notification(n.title,{
+          body:n.body,
+          icon:"https://www.fifplay.com/img/public/fifa-world-cup-2026-logo-alt.png",
+          requireInteraction:true
+        });
+    }, ms));
+  });
+}
+
+async function checkAmigaStatus(){
+  const btn  = document.getElementById("amiga-status-btn");
+  const body = document.getElementById("amiga-status-body");
+  const sub  = document.getElementById("amiga-status-sub");
+  const now  = Date.now();
+  if(lastAmigaStatusCheck && now - lastAmigaStatusCheck < 180000){
+    const s = Math.ceil((180000-(now-lastAmigaStatusCheck))/1000);
+    body.innerHTML=`<div class="status-idle"><div class="status-idle-icon">⏳</div><div class="status-idle-txt">Aguarde ${s}s antes de verificar novamente.</div></div>`;
+    return;
+  }
+  btn.disabled=true; btn.innerHTML=`<span class="spin">⟳</span> Buscando...`;
+  if(sub) sub.textContent="Consultando em tempo real...";
+  body.innerHTML=`<div style="padding:20px 0;text-align:center;color:var(--label2);font-size:13px;"><span class="spin" style="font-size:20px;display:inline-block;margin-bottom:8px;">⟳</span><br>Buscando LA8180 e LA6729…</div>`;
+
+  const today = new Date().toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"numeric"});
+  const prompt = `Você é um assistente de viagem. Hoje é ${today}.
+
+Voo de uma amiga (LATAM Airlines):
+- LA8180: GRU→JFK, Dom 21 Jun 2026, 22:55 BRT
+- Escala 3h30 em JFK Terminal 4
+- LA6729 (operado pela Delta): JFK→AUS, Seg 22 Jun 2026, 11:10 EDT → 14:10 CT
+- Confirmação LATAM: NAPQTK
+
+Busque na web e informe: há mudança de horário, portão ou cancelamento nesses voos? Se os voos ainda não aconteceram, há alertas que possam afetá-los? Responda em português, direto e objetivo. Use ✅ no horário, ⚠️ atenção, ❌ problema.`;
+
+  try {
+    const resp = await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-20250514", max_tokens:800,
+        tools:[{type:"web_search_20250305",name:"web_search"}],
+        messages:[{role:"user",content:prompt}]
+      })
+    });
+    const data = await resp.json();
+    if(!resp.ok) throw new Error(data.error?.message||"Erro");
+    const text = data.content.filter(b=>b.type==="text").map(b=>b.text).join("\n").trim();
+    if(!text) throw new Error("Resposta vazia");
+    lastAmigaStatusCheck = Date.now();
+    const t = new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+    const lower = text.toLowerCase();
+    let pill = lower.includes("cancelad")||lower.includes("❌")
+      ? `<div class="status-pill err">❌ Possível problema</div>`
+      : lower.includes("atraso")||lower.includes("⚠️")
+      ? `<div class="status-pill warn">⚠️ Há atualizações</div>`
+      : `<div class="status-pill ok">✅ Tudo no horário</div>`;
+    body.innerHTML = `<div class="status-body">${pill}<div class="status-result">${text.replace(/LA\d{4}/g,m=>`<strong>${m}</strong>`)}</div><div class="status-footer">🔍 Consultado às ${t} · Confirme em latam.com ou delta.com</div></div>`;
+    if(sub) sub.textContent = `Última verificação: ${t}`;
+  } catch(err){
+    body.innerHTML=`<div class="status-body"><div class="status-pill err">⚠️ Erro</div><div class="status-result">${err.message}\n\nVerifique em latam.com · Confirmação: NAPQTK</div></div>`;
+    if(sub) sub.textContent="Erro na verificação";
+  } finally {
+    btn.disabled=false; btn.innerHTML="Verificar";
+  }
+}
+
 /* ── INIT ───────────────────────────────────────── */
 function init(){
   setupManifest();registerSW();
@@ -1400,9 +1687,239 @@ function init(){
   if(navigator.standalone||matchMedia("(display-mode:standalone)").matches)
     document.getElementById("ibanner").classList.add("gone");
   updateClock();
-  setInterval(()=>{updateCountdowns();showBanner();updateVooBanner();updateNotifUI();},60000);
+  updateAmigaBanner();
+  if(Notification.permission==="granted"&&amigaNotifAtiva===false){
+    amigaNotifAtiva=true;scheduleAmigaNotifs();
+  }
+  updateAmigaNotifUI();
+  setInterval(()=>{updateCountdowns();showBanner();updateVooBanner();updateNotifUI();updateAmigaBanner();updateAmigaNotifUI();},60000);
 }
 window.addEventListener("DOMContentLoaded",init);
 </script>
+
+<!-- ══════════════════════════════════════════
+     ABA: AMIGA
+══════════════════════════════════════════ -->
+<div class="view" id="view-amiga">
+  <div class="content">
+
+    <div class="voo-banner azul" id="amiga-banner">⏳ Calculando...</div>
+
+    <div class="voo-stats">
+      <div class="vst"><div class="vst-n" id="amiga-dias">–</div><div class="vst-l">dias p/ embarque</div></div>
+      <div class="vst"><div class="vst-n">1</div><div class="vst-l">escala JFK</div></div>
+      <div class="vst"><div class="vst-n">13h</div><div class="vst-l">viagem total</div></div>
+      <div class="vst"><div class="vst-n">GRU</div><div class="vst-l">→ AUS</div></div>
+    </div>
+
+    <!-- TRECHO 1 GRU→JFK -->
+    <div class="section"><div class="sec-hd">IDA · Dom 21 / Seg 22 Jun 2026</div></div>
+
+    <div class="pass">
+      <div class="pass-hd">
+        <div class="al-row">
+          <div class="al-logo" style="background:#E4002B;">
+            <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+          </div>
+          <div>
+            <div class="al-name">LATAM Airlines · LA 8180</div>
+            <div class="al-flt">Economy/Coach (V)</div>
+          </div>
+        </div>
+        <span class="leg leg-ida">IDA 1/2</span>
+      </div>
+      <div class="route">
+        <div class="apt"><div class="apt-code">GRU</div><div class="apt-city">São Paulo</div><div class="apt-time">22:55 · Dom 21</div></div>
+        <div class="rmid">
+          <div class="rdur">9h 45m</div>
+          <div class="rarrow"><div class="rdot"></div><div class="rline"></div><span style="font-size:14px;">✈</span><div class="rline"></div><div class="rdot"></div></div>
+          <div class="rdur">Direto</div>
+        </div>
+        <div class="apt r"><div class="apt-code">JFK</div><div class="apt-city">Nova York</div><div class="apt-time">07:40 · Seg 22</div></div>
+      </div>
+      <div class="tear"><div class="t-notch"></div><div class="t-dash"></div><div class="t-notch"></div></div>
+      <div class="binfo">
+        <div><div class="bl">Partida</div><div class="bv">Dom 21 Jun · 22:55 BRT</div></div>
+        <div><div class="bl">Terminal GRU</div><div class="bv">Terminal 3 · Guarulhos</div></div>
+        <div><div class="bl">Chegar GRU</div><div class="bv">Dom 21 · ~19:55 BRT</div></div>
+        <div><div class="bl">Chegada JFK</div><div class="bv">Seg 22 · 07:40 EDT · T4</div></div>
+      </div>
+    </div>
+
+    <div class="escala">
+      <span style="font-size:18px;">🔄</span>
+      <div class="escala-txt">Escala 3h 30m · Nova York JFK · Terminal 4 · Troca de avião</div>
+    </div>
+
+    <!-- TRECHO 2 JFK→AUS -->
+    <div class="pass">
+      <div class="pass-hd">
+        <div class="al-row">
+          <div class="al-logo" style="background:#E4002B;">
+            <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+          </div>
+          <div>
+            <div class="al-name">LATAM 6729 · op. Delta Air Lines</div>
+            <div class="al-flt">Economy · Terminal 4 JFK</div>
+          </div>
+        </div>
+        <span class="leg leg-ida">IDA 2/2</span>
+      </div>
+      <div class="route">
+        <div class="apt"><div class="apt-code">JFK</div><div class="apt-city">Nova York</div><div class="apt-time">11:10 EDT · Seg 22</div></div>
+        <div class="rmid">
+          <div class="rdur">4h 00m</div>
+          <div class="rarrow"><div class="rdot"></div><div class="rline"></div><span style="font-size:14px;">✈</span><div class="rline"></div><div class="rdot"></div></div>
+          <div class="rdur">Direto</div>
+        </div>
+        <div class="apt r"><div class="apt-code">AUS</div><div class="apt-city">Austin</div><div class="apt-time">14:10 CT · Seg 22</div></div>
+      </div>
+      <div class="tear"><div class="t-notch"></div><div class="t-dash"></div><div class="t-notch"></div></div>
+      <div class="binfo">
+        <div><div class="bl">Chega em Austin</div><div class="bv">Seg 22 Jun · 14:10 CT</div></div>
+        <div><div class="bl">Aeroporto</div><div class="bv">Austin-Bergstrom (AUS)</div></div>
+        <div><div class="bl">Jogos ainda disponíveis</div><div class="bv">M47 · M65 · M76 · M78 🏆</div></div>
+        <div><div class="bl">Operado por</div><div class="bv">Delta Air Lines</div></div>
+      </div>
+    </div>
+
+    <!-- RESERVA -->
+    <div class="section"><div class="sec-hd">Reserva</div></div>
+    <div class="code-card">
+      <div>
+        <div class="bl" style="margin-bottom:4px;">Confirmação LATAM</div>
+        <div class="code-big" style="color:var(--red);">NAPQTK</div>
+        <div style="font-size:11px;color:var(--label2);margin-top:3px;">latam.com · check-in abre 24h antes</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;">
+        <div class="bl" style="margin-bottom:4px;">Orbitz</div>
+        <div style="font-family:ui-monospace,monospace;font-size:11px;font-weight:600;color:var(--label2);">73335144285230</div>
+      </div>
+    </div>
+
+
+    <!-- PASSAGEIRA -->
+    <div class="icard" style="margin-top:14px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,59,48,.12);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;">MC</div>
+      <div>
+        <div class="icard-title">Maria Cristina Alves</div>
+        <div class="icard-sub">Confirmação LATAM: NAPQTK · Pousa Seg 22 Jun às 14:10 CT</div>
+      </div>
+    </div>
+
+    <!-- BUSCAR NO AEROPORTO -->
+    <div class="section"><div class="sec-hd">🚗 Buscar no Aeroporto</div></div>
+    <div class="icard" style="flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="font-size:24px;flex-shrink:0;">📍</div>
+        <div style="flex:1;">
+          <div class="icard-title">Seg 22 Jun · Chegada 14:10 CT</div>
+          <div class="icard-sub">
+            🏠 Base → AUS: ~18 mi · ~30 min<br>
+            ⏰ Sair da base às <strong>13:30 CT</strong> (bagagem leva ~20 min)<br>
+            ✈️ Terminal AUS: seguir sinalização "Arrivals" · zona de pickup
+          </div>
+        </div>
+      </div>
+      <a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=Austin-Bergstrom+International+Airport,+Austin,+TX&travelmode=driving" target="_blank"
+         style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--green);color:#fff;border-radius:10px;padding:11px 14px;font-size:13px;font-weight:600;text-decoration:none;">
+        🗺️ Rota: Base → Aeroporto AUS
+      </a>
+    </div>
+
+    <!-- STATUS -->
+    <div class="section"><div class="sec-hd">🔍 Status do Voo</div></div>
+    <div class="status-card">
+      <div class="status-hd">
+        <div class="status-hd-left">
+          <div class="status-hd-title">LA8180 · LA6729 / Delta</div>
+          <div class="status-hd-sub" id="amiga-status-sub">GRU → JFK → AUS · 21–22 Jun</div>
+        </div>
+        <button class="status-check-btn" id="amiga-status-btn" onclick="checkAmigaStatus()">Verificar</button>
+      </div>
+      <div class="status-body" id="amiga-status-body">
+        <div class="status-idle">
+          <div class="status-idle-icon">🛫</div>
+          <div class="status-idle-txt">Toque em <strong>Verificar</strong> para buscar mudanças de<br>horário, portão ou cancelamentos em tempo real.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTIFICAÇÕES -->
+    <div class="section"><div class="sec-hd">🔔 Lembretes · 21 de Junho</div></div>
+    <div class="notif-card">
+      <div class="notif-hd">
+        <div>
+          <div class="notif-hd-title">Notificações · Maria Cristina</div>
+          <div class="notif-hd-sub" id="amiga-notif-sub">Ative para receber alertas no seu celular</div>
+        </div>
+        <button class="ntoggle" id="amiga-notif-btn" onclick="toggleAmigaNotif()">Ativar</button>
+      </div>
+
+      <!-- check-in: Dom 20 22:55 BRT = 01:55 UTC 21 jun -->
+      <div class="notif-row">
+        <div class="notif-time"><div class="notif-t">22:55</div><div class="notif-d">Dom 20 Jun</div></div>
+        <div class="ndot" id="amiga-dot-checkin"></div>
+        <div class="notif-body">
+          <div class="notif-title">📱 Check-in LATAM aberto!</div>
+          <div class="notif-sub">latam.com · Código NAPQTK · LA8180 GRU→JFK</div>
+        </div>
+      </div>
+
+      <!-- aeroporto: Dom 21 19:00 BRT = 22:00 UTC -->
+      <div class="notif-row">
+        <div class="notif-time"><div class="notif-t">19:00</div><div class="notif-d">Dom 21 Jun</div></div>
+        <div class="ndot" id="amiga-dot-aero"></div>
+        <div class="notif-body">
+          <div class="notif-title">🚗 Amiga: hora de ir pro GRU!</div>
+          <div class="notif-sub">Voo às 22:55 · 3h de antecedência · Guarulhos Terminal 3</div>
+        </div>
+      </div>
+
+      <!-- embarque: Dom 21 22:00 BRT = 01:00 UTC 22 -->
+      <div class="notif-row">
+        <div class="notif-time"><div class="notif-t">22:00</div><div class="notif-d">Dom 21 Jun</div></div>
+        <div class="ndot" id="amiga-dot-board"></div>
+        <div class="notif-body">
+          <div class="notif-title">✈️ Amiga embarcando!</div>
+          <div class="notif-sub">LA8180 GRU→JFK decolando em breve · Boa viagem! 🏆</div>
+        </div>
+      </div>
+
+      <!-- lembrete: Seg 22 12:00 CT = 17:00 UTC -->
+      <div class="notif-row">
+        <div class="notif-time"><div class="notif-t">12:00 CT</div><div class="notif-d">Seg 22 Jun</div></div>
+        <div class="ndot" id="amiga-dot-lembrete"></div>
+        <div class="notif-body">
+          <div class="notif-title">🔔 Maria Cristina pousa às 14:10!</div>
+          <div class="notif-sub">Prepare-se para buscar no AUS · Saia às 13:30 CT da base</div>
+        </div>
+      </div>
+
+      <!-- sair buscar: Seg 22 13:30 CT = 18:30 UTC -->
+      <div class="notif-row">
+        <div class="notif-time"><div class="notif-t">13:30 CT</div><div class="notif-d">Seg 22 Jun</div></div>
+        <div class="ndot" id="amiga-dot-sair"></div>
+        <div class="notif-body">
+          <div class="notif-title">🚗 Saia agora! Buscar Maria Cristina</div>
+          <div class="notif-sub">~30 min até AUS · LA6729 pousa às 14:10 · <a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=Austin-Bergstrom+International+Airport,+Austin,+TX&travelmode=driving" style="color:var(--blue);">Abrir rota →</a></div>
+        </div>
+      </div>
+
+      <!-- chegou: Seg 22 14:10 CT = 19:10 UTC -->
+      <div class="notif-row">
+        <div class="notif-time"><div class="notif-t">14:10 CT</div><div class="notif-d">Seg 22 Jun</div></div>
+        <div class="ndot" id="amiga-dot-chegou"></div>
+        <div class="notif-body">
+          <div class="notif-title">🎉 Maria Cristina chegou em Austin!</div>
+          <div class="notif-sub">LA6729 pousou no AUS · Arrivals zone · Bem-vinda à Copa! 🏆</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:8px;"></div>
+  </div>
+</div><!-- /view-amiga -->
+
 </body>
 </html>
