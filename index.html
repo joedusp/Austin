@@ -280,6 +280,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
 .wx-body{padding:13px 14px;}
 .wx-idle{text-align:center;padding:6px 0 2px;}
 
+
+/* STATUS LINKS */
+.status-links{padding:13px 14px;display:flex;flex-direction:column;gap:8px;}
+.status-link-row{display:flex;gap:8px;}
+.sl-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border-radius:10px;font-size:12px;font-weight:600;text-decoration:none;text-align:center;line-height:1.3;}
+.sl-official{background:var(--blue);color:#fff;}
+.sl-fa{background:rgba(0,122,255,.1);color:var(--blue);}
+.sl-fr{background:rgba(52,199,89,.1);color:var(--green);}
+@media(prefers-color-scheme:dark){
+  .sl-fa{background:rgba(10,132,255,.18);}
+  .sl-fr{background:rgba(48,209,88,.18);}
+}
+.sl-note{font-size:10px;color:var(--label3);text-align:center;padding:2px 0 2px;}
+
 /* FLIGHT STATUS */
 .status-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
 .status-hd{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--sep);}
@@ -670,23 +684,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
       <div class="vst"><div class="vst-n">GRU</div><div class="vst-l">→ AUS</div></div>
     </div>
 
+
     <!-- STATUS DO VOO -->
     <div class="status-card">
       <div class="status-hd">
         <div class="status-hd-left">
           <div class="status-hd-title">🔍 Status dos Voos</div>
-          <div class="status-hd-sub" id="status-sub">CM758 · CM715 · CM716 · CM759</div>
-        </div>
-        <button class="status-check-btn" id="status-btn" onclick="checkFlightStatus()">
-          Verificar
-        </button>
-      </div>
-      <div class="status-body" id="status-body">
-        <div class="status-idle">
-          <div class="status-idle-icon">🛫</div>
-          <div class="status-idle-txt">Toque em <strong>Verificar</strong> para consultar mudanças de<br>horário, portão ou cancelamentos em tempo real.</div>
+          <div class="status-hd-sub">CM758 · CM715 · CM716 · CM759</div>
         </div>
       </div>
+      <div class="status-links">
+        <a href="https://www.copa.com/pt-br/web/check-in/flight-status" target="_blank" class="sl-btn sl-official">✈️ Verificar na Copa Airlines (oficial)</a>
+        <div class="status-link-row">
+          <a href="https://flightaware.com/live/flight/CM758" target="_blank" class="sl-btn sl-fa">📡 CM758<br>GRU→PTY</a>
+          <a href="https://flightaware.com/live/flight/CM715" target="_blank" class="sl-btn sl-fa">📡 CM715<br>PTY→AUS</a>
+        </div>
+        <div class="status-link-row">
+          <a href="https://flightaware.com/live/flight/CM716" target="_blank" class="sl-btn sl-fa">📡 CM716<br>AUS→PTY</a>
+          <a href="https://flightaware.com/live/flight/CM759" target="_blank" class="sl-btn sl-fa">📡 CM759<br>PTY→GRU</a>
+        </div>
+        <div class="status-link-row">
+          <a href="https://www.flightradar24.com/data/flights/cm758" target="_blank" class="sl-btn sl-fr">🛰️ FlightRadar24 ao vivo</a>
+        </div>
+        <div class="sl-note">⚠️ Consulte no dia do voo para ver seu voo específico em tempo real</div>
+      </div>
+    </div>
+
     </div>
 
 
@@ -1827,22 +1850,29 @@ window.addEventListener("DOMContentLoaded",init);
       </a>
     </div>
 
+
     <!-- STATUS -->
     <div class="section"><div class="sec-hd">🔍 Status do Voo</div></div>
     <div class="status-card">
       <div class="status-hd">
         <div class="status-hd-left">
-          <div class="status-hd-title">LA8180 · LA6729 / Delta</div>
-          <div class="status-hd-sub" id="amiga-status-sub">GRU → JFK → AUS · 21–22 Jun</div>
-        </div>
-        <button class="status-check-btn" id="amiga-status-btn" onclick="checkAmigaStatus()">Verificar</button>
-      </div>
-      <div class="status-body" id="amiga-status-body">
-        <div class="status-idle">
-          <div class="status-idle-icon">🛫</div>
-          <div class="status-idle-txt">Toque em <strong>Verificar</strong> para buscar mudanças de<br>horário, portão ou cancelamentos em tempo real.</div>
+          <div class="status-hd-title">🔍 Status do Voo · Maria Cristina</div>
+          <div class="status-hd-sub">LA8180 · LA6729 / Delta · 21–22 Jun</div>
         </div>
       </div>
+      <div class="status-links">
+        <a href="https://www.latamairlines.com/br/pt/check-in/status?orderId=LA9578230QCEN&lastName=Alves" target="_blank" class="sl-btn sl-official">✈️ Verificar na LATAM (oficial · check-in direto)</a>
+        <div class="status-link-row">
+          <a href="https://flightaware.com/live/flight/LA8180" target="_blank" class="sl-btn sl-fa">📡 LA8180<br>GRU→JFK</a>
+          <a href="https://flightaware.com/live/flight/LA6729" target="_blank" class="sl-btn sl-fa">📡 LA6729<br>JFK→AUS</a>
+        </div>
+        <div class="status-link-row">
+          <a href="https://www.flightradar24.com/data/flights/la8180" target="_blank" class="sl-btn sl-fr">🛰️ FlightRadar24 ao vivo</a>
+        </div>
+        <div class="sl-note">⚠️ Consulte no dia do voo para ver seu voo específico em tempo real</div>
+      </div>
+    </div>
+
     </div>
 
     <!-- NOTIFICAÇÕES -->
