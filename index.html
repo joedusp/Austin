@@ -294,6 +294,70 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
 }
 .sl-note{font-size:10px;color:var(--label3);text-align:center;padding:2px 0 2px;}
 
+
+
+/* COBERTURAS SEGURO */
+.cob-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
+.cob-hd{padding:12px 14px;border-bottom:.5px solid var(--sep);display:flex;align-items:center;justify-content:space-between;}
+.cob-hd-title{font-size:13px;font-weight:600;}
+.cob-hd-sub{font-size:11px;color:var(--label2);margin-top:2px;}
+.cob-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(0,122,255,.12);color:var(--blue);}
+.cob-section{padding:10px 14px 4px;}
+.cob-section-title{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--label3);margin-bottom:6px;}
+.cob-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:.5px solid var(--sep);}
+.cob-row:last-child{border-bottom:none;}
+.cob-label{font-size:12px;color:var(--label);flex:1;padding-right:8px;line-height:1.4;}
+.cob-value{font-size:12px;font-weight:700;color:var(--green);white-space:nowrap;text-align:right;}
+.cob-value.warn{color:var(--orange);}
+.cob-note{font-size:10px;color:var(--label3);padding:8px 14px 10px;border-top:.5px solid var(--sep);}
+@media(prefers-color-scheme:dark){.cob-badge{background:rgba(10,132,255,.2);}}
+
+/* INFO TAB */
+.exch-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
+.exch-hd{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--sep);}
+.exch-main{padding:14px 16px;display:flex;align-items:center;gap:12px;}
+.exch-rate{font-size:36px;font-weight:700;letter-spacing:-1.5px;color:var(--blue);}
+.exch-sub{font-size:12px;color:var(--label2);margin-top:3px;}
+.exch-updated{font-size:10px;color:var(--label3);margin-top:2px;}
+.exch-calc{padding:0 14px 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.exch-item{background:var(--bg);border-radius:10px;padding:9px 11px;}
+.exch-usd{font-size:11px;color:var(--label3);margin-bottom:3px;}
+.exch-brl{font-size:16px;font-weight:700;color:var(--label);}
+
+.clock-info{background:var(--card);border-radius:12px;margin:14px 16px 0;display:flex;overflow:hidden;}
+
+.emerg-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
+.emerg-row{display:flex;align-items:center;gap:12px;padding:11px 14px;}
+.emerg-row+.emerg-row{border-top:.5px solid var(--sep);}
+.emerg-ico{font-size:22px;width:30px;text-align:center;flex-shrink:0;}
+.emerg-label{font-size:13px;font-weight:600;}
+.emerg-sub{font-size:11px;color:var(--label2);margin-top:1px;}
+.emerg-btn{margin-left:auto;background:rgba(255,59,48,.1);color:var(--red);border:none;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+.emerg-btn.blue{background:rgba(0,122,255,.1);color:var(--blue);}
+.emerg-soon{background:var(--bg);border-radius:8px;padding:8px 10px;margin:0 14px 12px;font-size:11px;color:var(--label3);}
+@media(prefers-color-scheme:dark){
+  .emerg-btn{background:rgba(255,69,58,.18);}
+  .emerg-btn.blue{background:rgba(10,132,255,.18);}
+}
+
+.checklist-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
+.cl-tabs{display:flex;border-bottom:.5px solid var(--sep);}
+.cl-tab{flex:1;padding:9px 4px;border:none;background:transparent;font-family:inherit;font-size:11px;font-weight:500;color:var(--label2);cursor:pointer;position:relative;transition:color .15s;}
+.cl-tab.on{color:var(--blue);}
+.cl-tab.on::after{content:'';position:absolute;bottom:0;left:15%;right:15%;height:2px;background:var(--blue);border-radius:2px 2px 0 0;}
+.cl-panel{display:none;padding:12px 14px;}
+.cl-panel.on{display:block;}
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:.5px solid var(--sep);}
+.cl-item:last-child{border-bottom:none;}
+.cl-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--sep);background:transparent;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px;}
+.cl-check.done{background:var(--green);border-color:var(--green);}
+.cl-check.done::after{content:"✓";color:#fff;font-size:12px;font-weight:700;}
+.cl-ico{font-size:16px;flex-shrink:0;margin-top:1px;}
+.cl-txt{flex:1;}
+.cl-label{font-size:13px;font-weight:500;}
+.cl-note{font-size:11px;color:var(--label2);margin-top:1px;}
+.cl-warn{font-size:10px;font-weight:600;color:var(--red);margin-top:1px;}
+
 /* FLIGHT STATUS */
 .status-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
 .status-hd{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid var(--sep);}
@@ -327,7 +391,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
 <div class="nav">
   <div class="nav-row">
     <div class="nav-title">🏆 Copa 2026 · Austin</div>
-    <div class="nav-sub">7 jogos · 3 pessoas</div>
+    <div class="nav-sub">8 jogos · 3 pessoas</div>
   </div>
   <div class="tabs">
     <button class="tab-btn on" id="tab-jogos" onclick="switchTab('jogos')">
@@ -338,6 +402,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
     </button>
     <button class="tab-btn" id="tab-amiga" onclick="switchTab('amiga')">
       <span class="tab-icon">👩</span>Maria C.
+    </button>
+    <button class="tab-btn" id="tab-info" onclick="switchTab('info')">
+      <span class="tab-icon">ℹ️</span>Info
     </button>
   </div>
 </div>
@@ -381,6 +448,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
           <div class="tl-lbl" style="color:var(--orange);">M35</div>
           <div class="tl-date">20 jun</div>
           <div class="tl-dot" id="tl-M35" style="background:var(--orange);"></div>
+        </div>
+        <div class="tl-item tl-below" style="left:68.75%">
+          <div class="tl-dot" id="tl-M57" style="background:var(--orange);"></div>
+          <div class="tl-lbl" style="color:var(--orange);">M57</div>
+          <div class="tl-date">25 jun</div>
         </div>
         <div class="tl-item tl-above" style="left:75%">
           <div class="tl-lbl" style="color:var(--orange);">M65</div>
@@ -478,6 +550,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
           <div class="mtravel">🚗 Austin→Houston: ~165 mi · ~2h30</div>
         <div class="chips" style="margin-top:5px;"><a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=One+NRG+Park,+Houston,+TX+77054&travelmode=driving" target="_blank" class="chip c-maps">🗺️ Rota Google Maps</a></div>
         </div><button class="cbtn" id="chk-M47" onclick="chk('M47')" aria-label="Marcar assistido"></button></div><div class="csep"></div>
+
+        <div class="mcard" id="card-M57"><div class="accent-g"></div><div class="mbody">
+          <div class="mmeta"><span class="mdate">QUI, 25 JUN</span><span class="mnum">M57</span></div>
+          <div class="teams">
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/jp.svg');"></div>
+            <span class="tname">Japão</span><span class="vs">vs</span><span class="tname">Suécia</span>
+            <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/se.svg');"></div>
+          </div>
+          <div class="chips"><span class="chip c-time time-m" data-id="M57">12:00 CT</span><span class="chip c-t2">👥 2 ingressos</span><span class="chip c-dal">AT&amp;T · Arlington</span><span class="chip c-cd cd-M57">⏳...</span></div>
+          <div class="chips"><span class="chip c-dep dep-chip" data-id="M57">🚗 Sair às 07:00 CT</span></div>
+          <div class="maddr">📍 1 AT&amp;T Way, Arlington TX 76011</div>
+          <div class="mtravel">🚗 Austin→Arlington: ~185 mi · ~2h45 · ✈️ ~1h voo</div>
+          <div class="chips" style="margin-top:5px;"><a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=1+AT%26T+Way,+Arlington,+TX+76011&travelmode=driving" target="_blank" class="chip c-maps">🗺️ Rota Google Maps</a></div>
+        </div><button class="cbtn" id="chk-M57" onclick="chk('M57')" aria-label="Marcar assistido"></button></div><div class="csep"></div>
 
         <div class="mcard" id="card-M65"><div class="accent-g"></div><div class="mbody">
           <div class="mmeta"><span class="mdate">SEX, 26 JUN</span><span class="mnum">M65</span></div>
@@ -659,8 +745,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
     </div>
 
     <div class="stats">
-      <div class="stat"><div class="stat-n">7</div><div class="stat-l">jogos</div></div>
-      <div class="stat"><div class="stat-n">10</div><div class="stat-l">ingressos</div></div>
+      <div class="stat"><div class="stat-n">8</div><div class="stat-l">jogos</div></div>
+      <div class="stat"><div class="stat-n">12</div><div class="stat-l">ingressos</div></div>
       <div class="stat"><div class="stat-n">17</div><div class="stat-l">dias de Copa</div></div>
       <div class="stat"><div class="stat-n" id="stat-a">0</div><div class="stat-l">assistidos ✓</div></div>
     </div>
@@ -998,6 +1084,7 @@ const TZ_DATA={
   M23:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
   M35:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
   M47:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
+    M57:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair às 07:00 CT",dep_brt:"🚗 Sair às 09:00 BRT"},
   M65:{ct:"19:00 CT",brt:"21:00 BRT",dep_ct:"🚗 Sair \u00e0s 14:00 CT",dep_brt:"🚗 Sair \u00e0s 16:00 BRT"},
   M76:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
   M78:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 06:30 CT",dep_brt:"🚗 Sair \u00e0s 08:30 BRT"},
@@ -1035,7 +1122,7 @@ const timers=[];
 
 /* ── TABS ───────────────────────────────────────── */
 function switchTab(t){
-  ["jogos","voo","amiga"].forEach(v=>{
+  ["jogos","voo","amiga","info"].forEach(v=>{
     const vw=document.getElementById("view-"+v);
     const tb=document.getElementById("tab-"+v);
     if(vw) vw.classList.toggle("on",v===t);
@@ -1043,6 +1130,7 @@ function switchTab(t){
   });
   if(t==="voo"){ updateVooBanner(); updateNotifUI(); }
   if(t==="amiga"){ updateAmigaBanner(); updateAmigaNotifUI(); }
+  if(t==="info"){ updateClock(); updateExchangeRate(); }
 }
 
 /* ── TZ ─────────────────────────────────────────── */
@@ -1504,6 +1592,76 @@ Responda de forma direta e objetiva em português brasileiro. Se não houver nen
 }
 
 
+
+/* ── INFO TAB ───────────────────────────────────────────────── */
+function updateInfoClock(){
+  const now = new Date();
+  const ct  = new Date(now.toLocaleString("en-US",{timeZone:"America/Chicago"}));
+  const brt = new Date(now.toLocaleString("en-US",{timeZone:"America/Sao_Paulo"}));
+  const fmt = d => d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+  const day = d => d.toLocaleDateString("pt-BR",{weekday:"short",day:"2-digit",month:"2-digit"});
+
+  const ec = document.getElementById("info-clk-ct");
+  const eb = document.getElementById("info-clk-brt");
+  const ed = document.getElementById("info-clk-diff");
+  const edc = document.getElementById("info-clk-day-ct");
+  const elabel = document.getElementById("info-clk-ct-label");
+
+  if(ec) ec.textContent = fmt(ct);
+  if(eb) eb.textContent = fmt(brt);
+  if(edc) edc.textContent = day(ct);
+
+  // Detect which city based on nothing (always CT when in TX)
+  if(ed){
+    const diffH = Math.round((brt - ct) / 3600000);
+    ed.textContent = diffH > 0 ? `BRT +${diffH}h à frente` : `BRT ${diffH}h`;
+  }
+}
+setInterval(updateInfoClock, 1000);
+
+async function updateExchangeRate(){
+  const el    = document.getElementById("exch-rate");
+  const elnum = document.getElementById("exch-rate-num");
+  const elupd = document.getElementById("exch-updated");
+  const trend = document.getElementById("exch-trend");
+  if(el) el.textContent = "R$ ...";
+  try {
+    // exchangerate-api free no-key endpoint
+    const r = await fetch("https://open.er-api.com/v6/latest/USD");
+    const d = await r.json();
+    const rate = d.rates.BRL;
+    if(!rate) throw new Error("sem dados");
+    const fmt = v => "R$ " + (v * rate).toFixed(2).replace(".",",");
+    if(el)    el.textContent  = "R$ " + rate.toFixed(2).replace(".",",");
+    if(elnum) elnum.textContent = rate.toFixed(4).replace(".",",");
+    if(elupd) elupd.textContent = "Atualizado: " + new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+    if(trend) { trend.textContent = ""; }
+    const ids = {c10:10,c20:20,c50:50,c100:100,c200:200,c500:500};
+    Object.entries(ids).forEach(([id,usd])=>{
+      const e = document.getElementById(id);
+      if(e) e.textContent = fmt(usd);
+    });
+  } catch(e){
+    if(elupd) elupd.textContent = "Sem conexão · tente novamente";
+  }
+}
+
+/* ── CHECKLIST ───────────────────────────────────────────────── */
+function clTab(tab){
+  ["geral","nrg","att"].forEach((t,i)=>{
+    const p = document.getElementById("cl-"+t);
+    if(p) p.classList.toggle("on", t===tab);
+    const tabs = document.querySelectorAll(".cl-tab");
+    if(tabs[i]) tabs[i].classList.toggle("on", t===tab);
+  });
+}
+
+function clCheck(btn){
+  btn.classList.toggle("done");
+  if(navigator.vibrate) navigator.vibrate(btn.classList.contains("done")?[8,40,8]:25);
+}
+
+
 /* ── AMIGA VOO DATA ─────────────────────────────────────────── */
 // LA8180 GRU decolagem: Dom 21 Jun 22:55 BRT = 01:55 UTC Seg 22
 const AMIGA_IDA   = new Date("2026-06-22T01:55:00Z");
@@ -1710,6 +1868,7 @@ function init(){
   if(navigator.standalone||matchMedia("(display-mode:standalone)").matches)
     document.getElementById("ibanner").classList.add("gone");
   updateClock();
+  updateInfoClock();
   updateAmigaBanner();
   if(Notification.permission==="granted"&&amigaNotifAtiva===false){
     amigaNotifAtiva=true;scheduleAmigaNotifs();
@@ -1950,6 +2109,275 @@ window.addEventListener("DOMContentLoaded",init);
     <div style="height:8px;"></div>
   </div>
 </div><!-- /view-amiga -->
+
+
+<!-- ══════════════════════════════════════════
+     ABA: INFO
+══════════════════════════════════════════ -->
+<div class="view" id="view-info">
+  <div class="content">
+
+    <!-- RELÓGIO CT → BRT -->
+    <div class="section"><div class="sec-hd">🕐 Horário Atual</div></div>
+    <div class="clock-info">
+      <div class="clock-side">
+        <div class="clock-flag">📍</div>
+        <div class="clock-time" id="info-clk-ct">--:--</div>
+        <div class="clock-label" id="info-clk-ct-label">Horário local (CT)</div>
+        <div class="clock-diff" id="info-clk-day-ct"></div>
+      </div>
+      <div class="clock-side">
+        <div class="clock-flag">🇧🇷</div>
+        <div class="clock-time" id="info-clk-brt">--:--</div>
+        <div class="clock-label">São Paulo · BRT</div>
+        <div class="clock-diff" id="info-clk-diff"></div>
+      </div>
+    </div>
+
+    <!-- CÂMBIO -->
+    <div class="section"><div class="sec-hd">💱 Câmbio · USD → BRL</div></div>
+    <div class="exch-card">
+      <div class="exch-hd">
+        <div>
+          <div style="font-size:13px;font-weight:600;">Dólar hoje</div>
+          <div style="font-size:11px;color:var(--label2);" id="exch-updated">Carregando...</div>
+        </div>
+        <button onclick="updateExchangeRate()" style="border:none;background:var(--blue);color:#fff;border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">Atualizar</button>
+      </div>
+      <div class="exch-main">
+        <div style="flex:1;">
+          <div class="exch-rate" id="exch-rate">R$ –,––</div>
+          <div class="exch-sub">1 USD = <span id="exch-rate-num">–,––</span> BRL</div>
+          <div class="exch-updated" id="exch-source">Fonte: Open Exchange Rates</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:11px;color:var(--label3);margin-bottom:4px;">Variação</div>
+          <div style="font-size:16px;font-weight:700;" id="exch-trend">–</div>
+        </div>
+      </div>
+      <div class="exch-calc" id="exch-calc">
+        <div class="exch-item"><div class="exch-usd">$10 USD</div><div class="exch-brl" id="c10">–</div></div>
+        <div class="exch-item"><div class="exch-usd">$20 USD</div><div class="exch-brl" id="c20">–</div></div>
+        <div class="exch-item"><div class="exch-usd">$50 USD</div><div class="exch-brl" id="c50">–</div></div>
+        <div class="exch-item"><div class="exch-usd">$100 USD</div><div class="exch-brl" id="c100">–</div></div>
+        <div class="exch-item"><div class="exch-usd">$200 USD</div><div class="exch-brl" id="c200">–</div></div>
+        <div class="exch-item"><div class="exch-usd">$500 USD</div><div class="exch-brl" id="c500">–</div></div>
+      </div>
+    </div>
+
+    <!-- EMERGÊNCIAS -->
+    <div class="section"><div class="sec-hd">🆘 Emergências</div></div>
+    <div class="emerg-card">
+      <div class="emerg-row">
+        <div class="emerg-ico">🚨</div>
+        <div><div class="emerg-label">Emergência geral (EUA)</div><div class="emerg-sub">Polícia · Bombeiros · SAMU</div></div>
+        <a href="tel:911" class="emerg-btn">Ligar 911</a>
+      </div>
+      <div class="emerg-row">
+        <div class="emerg-ico">🏥</div>
+        <div><div class="emerg-label">Hospital · Austin</div><div class="emerg-sub">St. David's Medical Center · ~15 min da base</div></div>
+        <a href="tel:+15124768000" class="emerg-btn">Ligar</a>
+      </div>
+      <div class="emerg-row">
+        <div class="emerg-ico">🏥</div>
+        <div><div class="emerg-label">Hospital · Houston (NRG)</div><div class="emerg-sub">Memorial Hermann · ~5 min do NRG Park</div></div>
+        <a href="tel:+17137041000" class="emerg-btn">Ligar</a>
+      </div>
+      <div class="emerg-row">
+        <div class="emerg-ico">🏥</div>
+        <div><div class="emerg-label">Hospital · Arlington (AT&T)</div><div class="emerg-sub">Texas Health Arlington Memorial · ~5 min</div></div>
+        <a href="tel:+18172612121" class="emerg-btn">Ligar</a>
+      </div>
+      <div class="emerg-row">
+        <div class="emerg-ico">🇧🇷</div>
+        <div><div class="emerg-label">Consulado Brasileiro · Houston</div><div class="emerg-sub">+1 (713) 961-3063 · Seg–Sex 9h–13h CT</div></div>
+        <a href="tel:+17139613063" class="emerg-btn blue">Ligar</a>
+      </div>
+      <div class="emerg-row">
+        <div class="emerg-ico">📞</div>
+        <div><div class="emerg-label">Brasileiros no Exterior (MRE)</div><div class="emerg-sub">+55 61 3202-3812 · Brasília · 24h</div></div>
+        <a href="tel:+556132023812" class="emerg-btn blue">Ligar</a>
+      </div>
+      <div class="emerg-row">
+        <div class="emerg-ico">🛡️</div>
+        <div>
+          <div class="emerg-label">Seguro Viagem · AIG / Visa Infinite</div>
+          <div class="emerg-sub">+1 800 396 9665 · 24h · opção 1 PT · opção 3 benefícios</div>
+          <div class="emerg-sub">Cobre: $175.000 USD médico · $100k repatriação · bagagem · atraso</div>
+        </div>
+        <a href="tel:+18003969665" class="emerg-btn blue">Ligar</a>
+      </div>
+      <div class="emerg-row">
+        <div class="emerg-ico">📧</div>
+        <div>
+          <div class="emerg-label">Sinistros · AIG / Visa</div>
+          <div class="emerg-sub">benefits@ap-visa.com · visa.com/benefitsportal</div>
+          <div class="emerg-sub">Bilhetes: ...841 (João) · ...842 (Lilian) · ...843 (Diego)</div>
+        </div>
+        <a href="mailto:benefits@ap-visa.com" class="emerg-btn blue">Email</a>
+      </div>
+      <div style="background:rgba(255,149,0,.08);border-radius:10px;margin:8px 14px 12px;padding:10px 12px;">
+        <div style="font-size:11px;font-weight:700;color:var(--orange);margin-bottom:6px;">⚠️ Em caso de emergência médica — faça nessa ordem:</div>
+        <div style="font-size:11px;color:var(--label2);line-height:1.8;">
+          1️⃣ Se risco de vida → ligue <strong>911</strong> primeiro<br>
+          2️⃣ Ligue para a AIG <strong>+1 800 396 9665</strong> — eles coordenam o hospital e evitam que você pague do bolso<br>
+          3️⃣ Guarde <strong>todas as notas fiscais</strong> para reembolso<br>
+          4️⃣ Documentos necessários: fatura do cartão Visa · e-ticket · bilhete do seguro · relatório médico
+        </div>
+      </div>
+      <div class="emerg-soon">
+        💡 Salve esses números offline — podem ser necessários sem internet. Vigência: 05/04/2026 → 05/04/2027
+      </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="section"><div class="sec-hd">✅ Checklist de Mala</div></div>
+    <div class="checklist-card">
+      <div class="cl-tabs">
+        <button class="cl-tab on" onclick="clTab('geral')">🎒 Geral</button>
+        <button class="cl-tab" onclick="clTab('nrg')">🟣 NRG (outdoor)</button>
+        <button class="cl-tab" onclick="clTab('att')">🩵 AT&T (indoor)</button>
+      </div>
+
+      <div class="cl-panel on" id="cl-geral">
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">📘</div><div class="cl-txt"><div class="cl-label">Passaporte</div><div class="cl-note">Todos os 3 · obrigatório nos estádios</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">📱</div><div class="cl-txt"><div class="cl-label">Celular carregado + ingressos</div><div class="cl-note">Ingressos digitais · screenshot de backup</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">💳</div><div class="cl-txt"><div class="cl-label">Cartão de crédito / débito</div><div class="cl-note">Pouco dinheiro em espécie · estádios aceitam cartão</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">🔋</div><div class="cl-txt"><div class="cl-label">Carregador portátil (powerbank)</div><div class="cl-note">Jogo longo · garanta bateria para o ingresso</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">👟</div><div class="cl-txt"><div class="cl-label">Tênis confortável</div><div class="cl-note">Muito caminho dos estacionamentos</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">🗺️</div><div class="cl-txt"><div class="cl-label">Google Maps offline baixado</div><div class="cl-note">Austin · Houston · Dallas · já feito ✓</div></div></div>
+      </div>
+
+      <div class="cl-panel" id="cl-nrg">
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">☀️</div><div class="cl-txt"><div class="cl-label">Protetor solar FPS 50+</div><div class="cl-note">Embalagem transparente · obrigatório outdoor</div><div class="cl-warn">⚠️ Houston junho: até 36°C · UV extremo</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">🕶️</div><div class="cl-txt"><div class="cl-label">Óculos de sol</div><div class="cl-note">Exposição direta ao sol nas arquibancadas</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">👒</div><div class="cl-txt"><div class="cl-label">Boné ou chapéu</div><div class="cl-note">Aba simples · sem estrutura rígida</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">👕</div><div class="cl-txt"><div class="cl-label">Roupa leve e clara</div><div class="cl-note">Tecido respirável · muito calor e umidade</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">👜</div><div class="cl-txt"><div class="cl-label">Bolsa transparente (máx 30×15×30cm)</div><div class="cl-note">Regra FIFA obrigatória · ou clutch 11×16cm</div><div class="cl-warn">❌ Proibido: mochilas · mesmo transparentes</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">💧</div><div class="cl-txt"><div class="cl-label">Hidratação extra</div><div class="cl-note">Água vendida dentro · mas beba antes de entrar</div></div></div>
+      </div>
+
+      <div class="cl-panel" id="cl-att">
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">🧥</div><div class="cl-txt"><div class="cl-label">Casaco ou moletom fino</div><div class="cl-note">AT&T é 100% climatizado · ~20°C interno</div><div class="cl-warn">⚠️ Fora faz 38°C · dentro congela</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">👜</div><div class="cl-txt"><div class="cl-label">Bolsa transparente (máx 30×15×30cm)</div><div class="cl-note">Mesma regra FIFA · clutch 11×16cm liberado</div><div class="cl-warn">❌ Proibido: mochilas de qualquer tipo</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">🔋</div><div class="cl-txt"><div class="cl-label">Powerbank</div><div class="cl-note">Jogo longo em ambiente fechado · cuide da bateria</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">👟</div><div class="cl-txt"><div class="cl-label">Tênis confortável</div><div class="cl-note">Piso do estádio é liso · evite chinelo</div></div></div>
+        <div class="cl-item"><button class="cl-check" onclick="clCheck(this)"></button><div class="cl-ico">📷</div><div class="cl-txt"><div class="cl-label">Câmera compacta (sem lente removível)</div><div class="cl-note">Permitida · celular sempre liberado</div></div></div>
+      </div>
+    </div>
+
+
+    <!-- COBERTURAS DO SEGURO -->
+    <div class="section"><div class="sec-hd">🛡️ Coberturas do Seguro</div></div>
+    <div class="cob-card">
+      <div class="cob-hd">
+        <div>
+          <div class="cob-hd-title">AIG Seguros · Visa Infinite</div>
+          <div class="cob-hd-sub">Vigência 05/04/2026 – 05/04/2027 · 3 segurados · Prêmio pago pela Visa</div>
+        </div>
+        <span class="cob-badge">Bilhete Anual</span>
+      </div>
+
+      <!-- MÉDICO -->
+      <div class="cob-section">
+        <div class="cob-section-title">🏥 Saúde · Cobertura Internacional</div>
+        <div class="cob-row">
+          <div class="cob-label">Despesas médicas e hospitalares no exterior</div>
+          <div class="cob-value">$175.000 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Despesas odontológicas no exterior</div>
+          <div class="cob-value">$7.500 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Translado médico / Remoção médica</div>
+          <div class="cob-value">$100.000 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Repatriação médica (Regresso Sanitário)</div>
+          <div class="cob-value">$100.000 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Repatriação funerária (Translado de corpo)</div>
+          <div class="cob-value">$100.000 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Acompanhante em hospitalização prolongada</div>
+          <div class="cob-value">$12.000 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Benefício em dinheiro para paciente internado</div>
+          <div class="cob-value">$6.000 USD</div>
+        </div>
+      </div>
+
+      <!-- VIAGEM -->
+      <div class="cob-section" style="border-top:.5px solid var(--sep);margin-top:4px;">
+        <div class="cob-section-title">✈️ Viagem · Assistência</div>
+        <div class="cob-row">
+          <div class="cob-label">Retorno antecipado da pessoa elegível</div>
+          <div class="cob-value">$30.000 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Retorno em classe executiva (por motivo médico)</div>
+          <div class="cob-value">$7.500 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Prorrogação de estadia (por motivo médico)</div>
+          <div class="cob-value">$2.000 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Cancelamento de viagem (até data embarque)</div>
+          <div class="cob-value">$4.500 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Atraso de embarque (após 4 horas)</div>
+          <div class="cob-value">$200 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Perda de conexão aérea</div>
+          <div class="cob-value">$300 USD</div>
+        </div>
+      </div>
+
+      <!-- BAGAGEM -->
+      <div class="cob-section" style="border-top:.5px solid var(--sep);margin-top:4px;">
+        <div class="cob-section-title">🧳 Bagagem</div>
+        <div class="cob-row">
+          <div class="cob-label">Perda ou roubo de bagagem (transporte público)</div>
+          <div class="cob-value">$3.500 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Atraso de bagagem (entre 4h e 4 dias)</div>
+          <div class="cob-value">$600 USD</div>
+        </div>
+      </div>
+
+      <!-- EXTRAS -->
+      <div class="cob-section" style="border-top:.5px solid var(--sep);margin-top:4px;">
+        <div class="cob-section-title">➕ Outros benefícios</div>
+        <div class="cob-row">
+          <div class="cob-label">Despesas de transporte VIP</div>
+          <div class="cob-value">$2.500 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Despesas complementares em caso de acidente</div>
+          <div class="cob-value">$300 USD</div>
+        </div>
+        <div class="cob-row">
+          <div class="cob-label">Hospedagem de pet (em caso de emergência)</div>
+          <div class="cob-value">$650 USD</div>
+        </div>
+      </div>
+
+      <div class="cob-note">
+        ⚠️ Cobertura válida por até 60 dias consecutivos a partir do primeiro embarque de cada viagem · Cobre COVID-19 e variantes · Valores por segurado · Não é seguro saúde · Reembolso quando não há rede credenciada · Consulte condições completas em visa.com/benefitsportal
+      </div>
+    </div>
+
+    <div style="height:8px;"></div>
+  </div>
+</div><!-- /view-info -->
 
 </body>
 </html>
