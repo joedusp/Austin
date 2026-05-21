@@ -296,6 +296,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
 
 
 
+
+/* TEMP CONVERTER */
+.temp-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
+.temp-converter{padding:13px 14px;display:flex;align-items:center;gap:10px;}
+.temp-field{flex:1;display:flex;flex-direction:column;gap:4px;}
+.temp-label{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--label3);}
+.temp-input{width:100%;border:1.5px solid var(--sep);border-radius:10px;background:var(--bg);color:var(--label);font-family:-apple-system,sans-serif;font-size:26px;font-weight:700;padding:8px 12px;text-align:center;outline:none;-webkit-appearance:none;appearance:none;}
+.temp-input:focus{border-color:var(--blue);}
+.temp-arrow{font-size:20px;color:var(--label3);flex-shrink:0;user-select:none;}
+.temp-table{border-top:.5px solid var(--sep);}
+.temp-table-hd{display:grid;grid-template-columns:1fr 1fr 2fr;padding:6px 14px;background:var(--bg);}
+.temp-table-hd-cell{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--label3);}
+.temp-row{display:grid;grid-template-columns:1fr 1fr 2fr;padding:8px 14px;border-top:.5px solid var(--sep);align-items:center;}
+.temp-f{font-size:13px;font-weight:700;color:var(--orange);}
+.temp-c{font-size:13px;font-weight:700;color:var(--blue);}
+.temp-ctx{font-size:11px;color:var(--label2);line-height:1.4;}
+
 /* COBERTURAS SEGURO */
 .cob-card{background:var(--card);border-radius:12px;margin:14px 16px 0;overflow:hidden;}
 .cob-hd{padding:12px 14px;border-bottom:.5px solid var(--sep);display:flex;align-items:center;justify-content:space-between;}
@@ -558,8 +575,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,sans-serif;back
             <span class="tname">Japão</span><span class="vs">vs</span><span class="tname">Suécia</span>
             <div class="flag-c" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/se.svg');"></div>
           </div>
-          <div class="chips"><span class="chip c-time time-m" data-id="M57">12:00 CT</span><span class="chip c-t2">👥 2 ingressos</span><span class="chip c-dal">AT&amp;T · Arlington</span><span class="chip c-cd cd-M57">⏳...</span></div>
-          <div class="chips"><span class="chip c-dep dep-chip" data-id="M57">🚗 Sair às 07:00 CT</span></div>
+          <div class="chips"><span class="chip c-time time-m" data-id="M57">18:00 CT</span><span class="chip c-t2">👥 2 ingressos</span><span class="chip c-dal">AT&amp;T · Arlington</span><span class="chip c-cd cd-M57">⏳...</span></div>
+          <div class="chips"><span class="chip c-dep dep-chip" data-id="M57">🚗 Sair às 13:30 CT</span></div>
           <div class="maddr">📍 1 AT&amp;T Way, Arlington TX 76011</div>
           <div class="mtravel">🚗 Austin→Arlington: ~185 mi · ~2h45 · ✈️ ~1h voo</div>
           <div class="chips" style="margin-top:5px;"><a href="https://maps.google.com/?saddr=9009+Great+Hills+Trail,+Austin,+TX+78759&daddr=1+AT%26T+Way,+Arlington,+TX+76011&travelmode=driving" target="_blank" class="chip c-maps">🗺️ Rota Google Maps</a></div>
@@ -1084,7 +1101,7 @@ const TZ_DATA={
   M23:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
   M35:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
   M47:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
-    M57:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair às 07:00 CT",dep_brt:"🚗 Sair às 09:00 BRT"},
+    M57:{ct:"18:00 CT",brt:"20:00 BRT",dep_ct:"🚗 Sair às 13:30 CT",dep_brt:"🚗 Sair às 15:30 BRT"},
   M65:{ct:"19:00 CT",brt:"21:00 BRT",dep_ct:"🚗 Sair \u00e0s 14:00 CT",dep_brt:"🚗 Sair \u00e0s 16:00 BRT"},
   M76:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 07:00 CT",dep_brt:"🚗 Sair \u00e0s 09:00 BRT"},
   M78:{ct:"12:00 CT",brt:"14:00 BRT",dep_ct:"🚗 Sair \u00e0s 06:30 CT",dep_brt:"🚗 Sair \u00e0s 08:30 BRT"},
@@ -2131,6 +2148,41 @@ window.addEventListener("DOMContentLoaded",init);
         <div class="clock-time" id="info-clk-brt">--:--</div>
         <div class="clock-label">São Paulo · BRT</div>
         <div class="clock-diff" id="info-clk-diff"></div>
+      </div>
+    </div>
+
+
+    <!-- CONVERSOR DE TEMPERATURA -->
+    <div class="section"><div class="sec-hd">🌡️ Temperatura</div></div>
+    <div class="temp-card">
+      <div class="temp-converter">
+        <div class="temp-field">
+          <div class="temp-label">Fahrenheit (°F)</div>
+          <input class="temp-input" id="inp-f" type="number" placeholder="°F"
+            oninput="if(this.value!==''){document.getElementById('inp-c').value=((this.value-32)*5/9).toFixed(1)}else{document.getElementById('inp-c').value=''}">
+        </div>
+        <div class="temp-arrow">⇄</div>
+        <div class="temp-field">
+          <div class="temp-label">Celsius (°C)</div>
+          <input class="temp-input" id="inp-c" type="number" placeholder="°C"
+            oninput="if(this.value!==''){document.getElementById('inp-f').value=(this.value*9/5+32).toFixed(1)}else{document.getElementById('inp-f').value=''}">
+        </div>
+      </div>
+      <div class="temp-table">
+        <div class="temp-table-hd">
+          <div class="temp-table-hd-cell">°F</div>
+          <div class="temp-table-hd-cell">°C</div>
+          <div class="temp-table-hd-cell">Contexto</div>
+        </div>
+        <div class="temp-row"><div class="temp-f">68°F</div><div class="temp-c">20°C</div><div class="temp-ctx">❄️ AT&T Stadium climatizado</div></div>
+        <div class="temp-row"><div class="temp-f">77°F</div><div class="temp-c">25°C</div><div class="temp-ctx">🌤️ Manhã agradável em Austin</div></div>
+        <div class="temp-row"><div class="temp-f">86°F</div><div class="temp-c">30°C</div><div class="temp-ctx">☀️ Tarde típica de junho (mín Houston)</div></div>
+        <div class="temp-row"><div class="temp-f">95°F</div><div class="temp-c">35°C</div><div class="temp-ctx">🥵 Quente · use protetor solar</div></div>
+        <div class="temp-row"><div class="temp-f">100°F</div><div class="temp-c">37.8°C</div><div class="temp-ctx">🔴 Muito quente · hidrate-se sempre</div></div>
+        <div class="temp-row"><div class="temp-f">104°F</div><div class="temp-c">40°C</div><div class="temp-ctx">🚨 Extremo · risco de insolação</div></div>
+        <div class="temp-row"><div class="temp-f">98.6°F</div><div class="temp-c">37°C</div><div class="temp-ctx">🧍 Temperatura corporal normal</div></div>
+        <div class="temp-row"><div class="temp-f">100.4°F</div><div class="temp-c">38°C</div><div class="temp-ctx">🤒 Febre · monitorar</div></div>
+        <div class="temp-row"><div class="temp-f">103°F</div><div class="temp-c">39.4°C</div><div class="temp-ctx">🏥 Febre alta · considerar médico</div></div>
       </div>
     </div>
 
